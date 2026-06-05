@@ -19,6 +19,7 @@ module.exports = async (req, res) => {
   console.log(`[verify-pin] msisdn=${msisdn} request_id=${request_id} click_id=${click_id}`);
 
   let carrierData;
+  let verifyRaw = '';
   try {
     // Carrier expects GET with query params; msisdn sent without leading +
     const url = new URL(process.env.VERIFY_PIN_API_URL);
@@ -38,14 +39,19 @@ module.exports = async (req, res) => {
     url.searchParams.set('request_id', request_id);
     url.searchParams.set('domain_name', process.env.DOMAIN_NAME || '');
     const response = await fetch(url.toString());
-    const rawText = await response.text();
+    verifyRaw = await response.text();
     try {
-      carrierData = JSON.parse(rawText);
+      carrierData = JSON.parse(verifyRaw);
     } catch (_) {
-      console.error(`[verify-pin] carrier non-JSON response: ${rawText.slice(0, 200)}`);
+      console.error(`[verify-pin] carrier non-JSON response: ${verifyRaw.slice(0, 200)}`);
+      // Still persist the raw error so it's visible in Supabase
+      const { data: badLead } = await supabase.from('leads').select('id').eq('msisdn', msisdn).eq('request_id', request_id).maybeSingle();
+      if (badLead) {
+        await supabase.from('leads').update({ status: 'failed', carrier_verify_raw: verifyRaw }).eq('id', badLead.id);
+      }
       return res.status(200).json({ success: false, error: 'carrier_error', message: 'Invalid carrier response' });
     }
-    console.log(`[verify-pin] carrier response: ${JSON.stringify(carrierData)}`);
+    console.log(`[verify-pin] carrier response: ${verifyRaw}`);
   } catch (err) {
     console.error(`[verify-pin] carrier fetch error: ${err.message}`);
     return res.status(200).json({ success: false, error: 'carrier_error', message: err.message });
@@ -66,7 +72,7 @@ module.exports = async (req, res) => {
 
   if (!isSuccess) {
     if (lead) {
-      await supabase.from('leads').update({ status: 'failed' }).eq('id', lead.id);
+      await supabase.from('leads').update({ status: 'failed', carrier_verify_raw: verifyRaw }).eq('id', lead.id);
     }
     console.log(`[verify-pin] invalid PIN for ${msisdn}`);
     return res.status(200).json({ success: false, error: 'invalid_pin' });
@@ -75,7 +81,7 @@ module.exports = async (req, res) => {
   if (lead) {
     await supabase
       .from('leads')
-      .update({ status: 'converted', converted_at: new Date().toISOString() })
+      .update({ status: 'converted', converted_at: new Date().toISOString(), carrier_verify_raw: verifyRaw })
       .eq('id', lead.id);
   }
 

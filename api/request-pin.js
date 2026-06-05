@@ -36,6 +36,7 @@ module.exports = async (req, res) => {
   }
 
   let carrierData;
+  let carrierRaw = '';
   try {
     // Carrier expects GET with query params; msisdn sent without leading +
     const url = new URL(process.env.REQUEST_PIN_API_URL);
@@ -53,15 +54,21 @@ module.exports = async (req, res) => {
     url.searchParams.set('lang', 'en');
     url.searchParams.set('domain_name', process.env.DOMAIN_NAME || '');
     const response = await fetch(url.toString());
-    carrierData = await response.json();
-    console.log(`[request-pin] carrier response: ${JSON.stringify(carrierData)}`);
+    carrierRaw = await response.text();
+    try {
+      carrierData = JSON.parse(carrierRaw);
+    } catch (_) {
+      console.error(`[request-pin] carrier non-JSON: ${carrierRaw.slice(0, 200)}`);
+      return res.status(200).json({ success: false, error: 'carrier_error', message: 'Invalid carrier response' });
+    }
+    console.log(`[request-pin] carrier response: ${carrierRaw}`);
   } catch (err) {
     console.error(`[request-pin] carrier fetch error: ${err.message}`);
     return res.status(200).json({ success: false, error: 'carrier_error', message: err.message });
   }
 
   if (!carrierData.request_id) {
-    console.error(`[request-pin] no request_id: ${JSON.stringify(carrierData)}`);
+    console.error(`[request-pin] no request_id: ${carrierRaw}`);
     return res.status(200).json({ success: false, error: 'carrier_error', message: 'No request_id in carrier response' });
   }
 
@@ -69,7 +76,8 @@ module.exports = async (req, res) => {
     msisdn,
     click_id,
     request_id: carrierData.request_id,
-    status: 'pending'
+    status: 'pending',
+    carrier_request_raw: carrierRaw
   });
 
   if (insertError) {
