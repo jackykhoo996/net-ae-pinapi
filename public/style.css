@@ -116,6 +116,9 @@ html[dir="rtl"] .prefix {
   border-right: none;
   border-left: 1px solid rgba(255,255,255,0.08);
 }
+/* Phone number right-aligned in RTL (reads X5 XXX XXXX from right) */
+html[dir="rtl"] #phone { text-align: right; }
+html[dir="ltr"] #phone { text-align: left; }
 
 .logo {
   height: 36px;
@@ -156,6 +159,58 @@ html[dir="rtl"] .prefix {
   width: 100%;
   max-width: 440px;
   text-align: center;
+}
+
+/* ── Hero Visual ── */
+.hero-visual {
+  position: relative;
+  width: 100%;
+  height: 210px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.hero-logo-big {
+  width: 230px;
+  max-width: 78%;
+  height: auto;
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 0 28px rgba(255,92,26,1)) drop-shadow(0 0 70px rgba(255,92,26,0.65));
+  animation: logo-pulse 3s ease-in-out infinite;
+}
+@keyframes logo-pulse {
+  0%, 100% { transform: scale(1);    filter: drop-shadow(0 0 28px rgba(255,92,26,0.95)) drop-shadow(0 0 70px rgba(255,92,26,0.55)); }
+  50%       { transform: scale(1.05); filter: drop-shadow(0 0 55px rgba(255,130,0,1))    drop-shadow(0 0 110px rgba(255,92,26,0.80)); }
+}
+.hv-ring {
+  position: absolute;
+  border-radius: 50%;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+}
+.hv-ring.r1 { width: 120px; height: 120px; border: 1.5px solid rgba(255,92,26,0.55); animation: ring-pulse 3s ease-in-out infinite; }
+.hv-ring.r2 { width: 185px; height: 185px; border: 1px   solid rgba(255,92,26,0.25); animation: ring-pulse 3s ease-in-out infinite 0.7s; }
+.hv-ring.r3 { width: 260px; height: 260px; border: 1px   solid rgba(255,92,26,0.10); animation: ring-pulse 3s ease-in-out infinite 1.4s; }
+@keyframes ring-pulse {
+  0%, 100% { transform: translate(-50%,-50%) scale(1);    opacity: 1; }
+  50%       { transform: translate(-50%,-50%) scale(1.09); opacity: 0.35; }
+}
+.hv-ico {
+  position: absolute;
+  font-size: 22px;
+  z-index: 3;
+  animation: float-ico 4s ease-in-out infinite;
+  filter: drop-shadow(0 2px 8px rgba(255,150,0,0.5));
+}
+.ico1 { top: 16%; left: 6%;  animation-delay: 0s; }
+.ico2 { top: 10%; right: 6%; animation-delay: 1s; }
+.ico3 { bottom: 16%; left: 8%;  animation-delay: 2s; }
+.ico4 { bottom: 10%; right: 8%; animation-delay: 3s; }
+@keyframes float-ico {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50%       { transform: translateY(-9px) scale(1.12); }
 }
 
 /* ── Hero text ── */

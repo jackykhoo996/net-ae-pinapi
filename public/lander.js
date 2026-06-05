@@ -25,6 +25,7 @@
       toast_fail:          'حدث خطأ، يرجى المحاولة مجدداً',
       toast_resent:        'تم إعادة إرسال رمز PIN!',
       toast_pin_length:    'أدخل رمز PIN المكون من 4 أرقام',
+      phone_placeholder:   'XXXX XXX X5',
       wait:                'جاري التحميل...',
       lang_label:          'EN'
     },
@@ -50,6 +51,7 @@
       toast_fail:          'Something went wrong. Please try again',
       toast_resent:        'PIN resent!',
       toast_pin_length:    'Please enter the 4-digit PIN',
+      phone_placeholder:   '5X XXX XXXX',
       wait:                'Please wait...',
       lang_label:          'عربي'
     }
@@ -72,6 +74,9 @@
 
     // Language button label
     document.getElementById('lang-btn').textContent = t('lang_label');
+
+    // Phone placeholder
+    document.getElementById('phone').placeholder = t('phone_placeholder');
 
     // Page title
     document.title = isAr ? 'Gameonz — اشترك الآن' : 'Gameonz — Subscribe Now';
