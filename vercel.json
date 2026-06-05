@@ -1,9 +1,6 @@
 {
   "version": 2,
   "public": false,
-  "functions": {
-    "api/*.js": { "runtime": "@vercel/node@5.0.2" }
-  },
   "routes": [
     { "src": "/api/(.*)", "dest": "/api/$1" },
     { "src": "/dashboard", "dest": "/dashboard/index.html" },
