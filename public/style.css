@@ -21,13 +21,16 @@ html { scroll-behavior: smooth; }
 
 body {
   font-family: var(--font-ar);
-  background: var(--bg);
+  background: #03050A;
   color: var(--text);
   min-height: 100vh;
   overflow-x: hidden;
-  /* Hex grid overlay */
   background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100'%3E%3Cpath d='M28 66L0 50V17L28 1l28 16v33z' fill='none' stroke='%23FF5C1A' stroke-width='0.4' stroke-opacity='0.07'/%3E%3Cpath d='M28 100L0 84V51l28-17 28 17v33z' fill='none' stroke='%23FF5C1A' stroke-width='0.4' stroke-opacity='0.07'/%3E%3C/svg%3E");
+    radial-gradient(ellipse 130% 55% at 50% -8%,  rgba(255,92,26,0.38)  0%, rgba(255,45,85,0.14) 40%, transparent 65%),
+    radial-gradient(ellipse 90%  75% at -15% 105%, rgba(110,0,210,0.28)  0%, transparent 55%),
+    radial-gradient(ellipse 75%  65% at 115% 5%,   rgba(255,20,80,0.22)  0%, transparent 55%),
+    radial-gradient(ellipse 110% 32% at 50%  112%,  rgba(200,50,0,0.18)   0%, transparent 50%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cpath d='M80 0L0 0 0 80' fill='none' stroke='%23FF5C1A' stroke-width='0.35' stroke-opacity='0.07'/%3E%3Ccircle cx='0' cy='0' r='2' fill='%23FF5C1A' fill-opacity='0.09'/%3E%3Ccircle cx='80' cy='80' r='1.5' fill='%23FF5C1A' fill-opacity='0.06'/%3E%3Cpath d='M40 40h40v40' fill='none' stroke='%23FF5C1A' stroke-width='0.2' stroke-opacity='0.04'/%3E%3C/svg%3E");
 }
 
 /* ── Background blobs ── */
@@ -38,25 +41,44 @@ body {
   z-index: 0;
 }
 .b1 {
-  width: 700px; height: 700px;
-  top: -280px; right: -180px;
-  background: radial-gradient(circle, rgba(255,92,26,0.55) 0%, transparent 65%);
-  filter: blur(90px);
+  width: 900px; height: 900px;
+  top: -360px; right: -220px;
+  background: radial-gradient(circle, rgba(255,92,26,0.72) 0%, rgba(255,45,85,0.3) 45%, transparent 65%);
+  filter: blur(100px);
   animation: drift1 10s ease-in-out infinite;
 }
 .b2 {
-  width: 500px; height: 500px;
-  bottom: -180px; left: -120px;
-  background: radial-gradient(circle, rgba(180,15,15,0.45) 0%, transparent 65%);
-  filter: blur(70px);
+  width: 720px; height: 720px;
+  bottom: -260px; left: -160px;
+  background: radial-gradient(circle, rgba(160,10,10,0.65) 0%, rgba(100,0,200,0.32) 45%, transparent 65%);
+  filter: blur(90px);
   animation: drift2 14s ease-in-out infinite;
 }
 .b3 {
-  width: 400px; height: 400px;
-  top: 40%; left: 50%; transform: translateX(-50%);
-  background: radial-gradient(circle, rgba(80,0,180,0.25) 0%, transparent 70%);
-  filter: blur(80px);
+  width: 600px; height: 600px;
+  top: 35%; left: 50%; transform: translateX(-50%);
+  background: radial-gradient(circle, rgba(60,0,180,0.38) 0%, transparent 70%);
+  filter: blur(90px);
   animation: drift3 18s ease-in-out infinite;
+}
+
+/* ── Perspective gaming grid ── */
+.bg-grid {
+  position: fixed;
+  bottom: 0;
+  left: -100%; right: -100%;
+  height: 60vh;
+  background-image:
+    linear-gradient(90deg, transparent 0%, rgba(255,92,26,0.05) 50%, transparent 100%),
+    linear-gradient(rgba(255,92,26,0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,92,26,0.07) 1px, transparent 1px);
+  background-size: 100% 100%, 60px 60px, 60px 60px;
+  transform: perspective(500px) rotateX(58deg);
+  transform-origin: 50% 100%;
+  mask-image: linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 80%);
+  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 80%);
+  z-index: 0;
+  pointer-events: none;
 }
 
 @keyframes drift1 {
@@ -87,9 +109,15 @@ body {
   border-bottom: 1px solid rgba(255,92,26,0.1);
 }
 
-/* RTL: logo on right, button on left — already handled by flex + space-between + dir=rtl */
 html[dir="ltr"] .nav { flex-direction: row; }
 html[dir="rtl"] .nav { flex-direction: row-reverse; }
+
+/* ── RTL phone input: flip so prefix appears on the right ── */
+html[dir="rtl"] .input-row { flex-direction: row-reverse; }
+html[dir="rtl"] .prefix {
+  border-right: none;
+  border-left: 1px solid rgba(255,255,255,0.08);
+}
 
 .logo {
   height: 36px;
@@ -378,22 +406,23 @@ html[dir="ltr"] .btn-ghost { font-family: var(--font-en); letter-spacing: .5px; 
 .features {
   display: flex;
   justify-content: center;
-  gap: 8px;
-  flex-wrap: wrap;
+  gap: 6px;
+  flex-wrap: nowrap;
 }
 .feat {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(255,255,255,0.07);
   border-radius: 99px;
-  padding: 7px 14px;
-  font-size: 12px;
+  padding: 6px 10px;
+  font-size: 11px;
   color: var(--muted);
   font-weight: 600;
+  white-space: nowrap;
 }
-.feat-ico { font-size: 15px; }
+.feat-ico { font-size: 14px; }
 
 /* ── Toast ── */
 .toast {
@@ -426,6 +455,6 @@ html[dir="ltr"] .btn-ghost { font-family: var(--font-en); letter-spacing: .5px; 
 @media (max-width: 380px) {
   .card { padding: 22px 16px; }
   .headline { font-size: 24px; }
-  .features { gap: 6px; }
-  .feat { font-size: 11px; padding: 6px 10px; }
+  .features { gap: 4px; }
+  .feat { font-size: 10px; padding: 5px 8px; }
 }
