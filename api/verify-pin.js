@@ -38,7 +38,13 @@ module.exports = async (req, res) => {
     url.searchParams.set('request_id', request_id);
     url.searchParams.set('domain_name', process.env.DOMAIN_NAME || '');
     const response = await fetch(url.toString());
-    carrierData = await response.json();
+    const rawText = await response.text();
+    try {
+      carrierData = JSON.parse(rawText);
+    } catch (_) {
+      console.error(`[verify-pin] carrier non-JSON response: ${rawText.slice(0, 200)}`);
+      return res.status(200).json({ success: false, error: 'carrier_error', message: 'Invalid carrier response' });
+    }
     console.log(`[verify-pin] carrier response: ${JSON.stringify(carrierData)}`);
   } catch (err) {
     console.error(`[verify-pin] carrier fetch error: ${err.message}`);
