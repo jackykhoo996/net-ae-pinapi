@@ -1,69 +1,154 @@
 (function () {
   'use strict';
 
-  var params = new URLSearchParams(window.location.search);
+  /* ── i18n ── */
+  var translations = {
+    ar: {
+      badge:         'وصول حصري',
+      headline:      'العب &bull; انتصر &bull; استمتع',
+      sub:           'اشترك في Gameonz واستمتع بأكثر من 1000 لعبة حصرية مباشرةً على رقم اتصالات الإمارات الخاص بك',
+      phone_label:   'أدخل رقم اتصالات الإمارات',
+      get_pin:       'احصل على رمز PIN',
+      terms:         'بالمتابعة، أنت توافق على الشروط والأحكام. AED 3.25/يوم بعد 24 ساعة مجانية. للإلغاء أرسل <strong>STOP GD</strong> إلى <strong>1741</strong>',
+      pin_label:     'أدخل رمز PIN المرسل إلى هاتفك',
+      verify:        'تحقق وفعّل',
+      resend:        'إعادة إرسال PIN',
+      success_title: '!أهلاً بك',
+      success_msg:   'اشتراكك في Gameonz نشط الآن. استمتع بالمحتوى الحصري والمكافآت اليومية.',
+      f1: '1000+ لعبة',
+      f2: 'بطولات يومية',
+      f3: 'مكافآت حصرية',
+      toast_invalid_phone: 'أدخل رقماً صحيحاً مكوناً من 9 أرقام',
+      toast_already_reg:   'هذا الرقم مسجل مسبقاً',
+      toast_pin_error:     'رمز PIN غير صحيح، حاول مرة أخرى',
+      toast_network:       'خطأ في الشبكة، يرجى المحاولة مجدداً',
+      toast_fail:          'حدث خطأ، يرجى المحاولة مجدداً',
+      toast_resent:        'تم إعادة إرسال رمز PIN!',
+      toast_pin_length:    'أدخل رمز PIN المكون من 4 أرقام',
+      wait:                'جاري التحميل...',
+      lang_label:          'EN'
+    },
+    en: {
+      badge:         'EXCLUSIVE ACCESS',
+      headline:      'Play &bull; Win &bull; Enjoy',
+      sub:           'Subscribe to Gameonz and enjoy 1000+ exclusive games directly on your Etisalat UAE number',
+      phone_label:   'Enter your Etisalat UAE number',
+      get_pin:       'GET MY PIN',
+      terms:         'By proceeding you agree to the T&amp;C. AED 3.25/day after 24hr free trial. Cancel: <strong>STOP GD</strong> to <strong>1741</strong>',
+      pin_label:     'Enter the PIN sent to your phone',
+      verify:        'VERIFY & ACTIVATE',
+      resend:        'Resend PIN',
+      success_title: "You're In!",
+      success_msg:   'Your Gameonz Pass is now active. Enjoy exclusive content & daily rewards.',
+      f1: '1000+ Games',
+      f2: 'Daily Tournaments',
+      f3: 'Exclusive Drops',
+      toast_invalid_phone: 'Please enter a valid 9-digit UAE number',
+      toast_already_reg:   'This number is already registered',
+      toast_pin_error:     'Incorrect PIN. Please try again',
+      toast_network:       'Network error. Please try again',
+      toast_fail:          'Something went wrong. Please try again',
+      toast_resent:        'PIN resent!',
+      toast_pin_length:    'Please enter the 4-digit PIN',
+      wait:                'Please wait...',
+      lang_label:          'عربي'
+    }
+  };
+
+  var lang = 'ar';
+
+  function t(key) { return translations[lang][key] || key; }
+
+  function applyLang() {
+    var isAr = lang === 'ar';
+    document.documentElement.setAttribute('lang', lang);
+    document.documentElement.setAttribute('dir', isAr ? 'rtl' : 'ltr');
+
+    // Update all data-i18n elements
+    document.querySelectorAll('[data-i18n]').forEach(function (el) {
+      var key = el.getAttribute('data-i18n');
+      el.innerHTML = t(key);
+    });
+
+    // Language button label
+    document.getElementById('lang-btn').textContent = t('lang_label');
+
+    // Page title
+    document.title = isAr ? 'Gameonz — اشترك الآن' : 'Gameonz — Subscribe Now';
+  }
+
+  /* ── URL params ── */
+  var params  = new URLSearchParams(window.location.search);
   var clickId = params.get('clickid') || params.get('click_id') || '';
   var requestId = '';
-  var msisdn = '';
+  var msisdn    = '';
 
-  var stepPhone = document.getElementById('step-phone');
-  var stepPin = document.getElementById('step-pin');
+  /* ── DOM ── */
+  var stepPhone   = document.getElementById('step-phone');
+  var stepPin     = document.getElementById('step-pin');
   var stepSuccess = document.getElementById('step-success');
+  var phoneInput  = document.getElementById('phone');
+  var pinInput    = document.getElementById('pin');
+  var btnRequest  = document.getElementById('btn-request');
+  var btnVerify   = document.getElementById('btn-verify');
+  var btnResend   = document.getElementById('btn-resend');
+  var langBtn     = document.getElementById('lang-btn');
 
-  var phoneInput = document.getElementById('phone');
-  var pinInput = document.getElementById('pin');
-  var btnRequest = document.getElementById('btn-request');
-  var btnVerify = document.getElementById('btn-verify');
-  var btnResend = document.getElementById('btn-resend');
-
-  // Only allow digits in phone field
+  /* ── Digit-only inputs ── */
   phoneInput.addEventListener('input', function () {
     this.value = this.value.replace(/\D/g, '');
   });
-
-  // Only allow digits in PIN field
   pinInput.addEventListener('input', function () {
     this.value = this.value.replace(/\D/g, '');
   });
 
+  /* ── Language toggle ── */
+  langBtn.addEventListener('click', function () {
+    lang = lang === 'ar' ? 'en' : 'ar';
+    applyLang();
+  });
+
+  /* ── Toast ── */
   function showToast(msg) {
-    var existing = document.querySelector('.toast');
-    if (existing) existing.remove();
-    var t = document.createElement('div');
-    t.className = 'toast';
-    t.textContent = msg;
-    document.body.appendChild(t);
+    var old = document.querySelector('.toast');
+    if (old) old.remove();
+    var el = document.createElement('div');
+    el.className = 'toast';
+    el.textContent = msg;
+    document.body.appendChild(el);
     requestAnimationFrame(function () {
-      requestAnimationFrame(function () { t.classList.add('show'); });
+      requestAnimationFrame(function () { el.classList.add('show'); });
     });
     setTimeout(function () {
-      t.classList.remove('show');
-      setTimeout(function () { t.remove(); }, 300);
+      el.classList.remove('show');
+      setTimeout(function () { el.remove(); }, 300);
     }, 3500);
   }
 
+  /* ── Loading state ── */
   function setLoading(btn, loading) {
+    var textEl = btn.querySelector('.btn-text') || btn;
     if (loading) {
       btn.disabled = true;
-      btn.dataset.orig = btn.textContent;
-      btn.textContent = 'Please wait...';
+      btn.dataset.orig = textEl.textContent;
+      textEl.textContent = t('wait');
     } else {
       btn.disabled = false;
-      btn.textContent = btn.dataset.orig || btn.textContent;
+      textEl.textContent = btn.dataset.orig || textEl.textContent;
     }
   }
 
+  /* ── Step transitions ── */
   function showStep(step) {
-    stepPhone.classList.add('hidden');
-    stepPin.classList.add('hidden');
-    stepSuccess.classList.add('hidden');
+    [stepPhone, stepPin, stepSuccess].forEach(function (s) { s.classList.add('hidden'); });
     step.classList.remove('hidden');
   }
 
+  /* ── Request PIN ── */
   btnRequest.addEventListener('click', function () {
     var raw = phoneInput.value.trim().replace(/\D/g, '');
     if (raw.length !== 9) {
-      showToast('Please enter your 9-digit Etisalat number (e.g. 5X XXX XXXX).');
+      showToast(t('toast_invalid_phone'));
       return;
     }
     msisdn = '+971' + raw;
@@ -79,24 +164,22 @@
         if (data.success) {
           requestId = data.request_id;
           showStep(stepPin);
+          pinInput.focus();
         } else if (data.error === 'already_registered') {
-          showToast('This number is already registered.');
+          showToast(t('toast_already_reg'));
         } else {
-          showToast('Could not send PIN. Please try again.');
+          showToast(t('toast_fail'));
         }
       })
-      .catch(function () {
-        showToast('Network error. Please try again.');
-      })
-      .finally(function () {
-        setLoading(btnRequest, false);
-      });
+      .catch(function () { showToast(t('toast_network')); })
+      .finally(function () { setLoading(btnRequest, false); });
   });
 
+  /* ── Verify PIN ── */
   btnVerify.addEventListener('click', function () {
     var pin = pinInput.value.trim();
-    if (!pin || pin.length !== 4) {
-      showToast('Please enter the PIN sent to your phone.');
+    if (pin.length !== 4) {
+      showToast(t('toast_pin_length'));
       return;
     }
 
@@ -111,27 +194,22 @@
         if (data.success) {
           showStep(stepSuccess);
         } else if (data.error === 'invalid_pin') {
-          showToast('Incorrect PIN. Please try again.');
+          showToast(t('toast_pin_error'));
           pinInput.value = '';
           pinInput.focus();
         } else {
-          showToast('Verification failed. Please try again.');
+          showToast(t('toast_fail'));
         }
       })
-      .catch(function () {
-        showToast('Network error. Please try again.');
-      })
-      .finally(function () {
-        setLoading(btnVerify, false);
-      });
+      .catch(function () { showToast(t('toast_network')); })
+      .finally(function () { setLoading(btnVerify, false); });
   });
 
+  /* ── Resend PIN ── */
   btnResend.addEventListener('click', function () {
-    if (btnResend.disabled) return;
-    var raw = msisdn.replace('+971', '');
-    if (!raw) { showStep(stepPhone); return; }
-
+    if (btnResend.disabled || !msisdn) return;
     setLoading(btnResend, true);
+
     fetch('/api/request-pin', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -142,16 +220,16 @@
         if (data.success) {
           requestId = data.request_id;
           pinInput.value = '';
-          showToast('PIN resent!');
+          showToast(t('toast_resent'));
         } else {
-          showToast('Could not resend PIN. Please try again.');
+          showToast(t('toast_fail'));
         }
       })
-      .catch(function () {
-        showToast('Network error. Please try again.');
-      })
-      .finally(function () {
-        setLoading(btnResend, false);
-      });
+      .catch(function () { showToast(t('toast_network')); })
+      .finally(function () { setLoading(btnResend, false); });
   });
+
+  /* ── Init ── */
+  applyLang();
+
 }());

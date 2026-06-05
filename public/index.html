@@ -1,64 +1,95 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gameonz — UAE Gaming Pass</title>
+  <title>Gameonz — اشترك الآن</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="hero">
-    <div class="glow-ring"></div>
+
+  <!-- Background layers -->
+  <div class="bg-blob b1" aria-hidden="true"></div>
+  <div class="bg-blob b2" aria-hidden="true"></div>
+  <div class="bg-blob b3" aria-hidden="true"></div>
+
+  <!-- Nav -->
+  <nav class="nav">
+    <img src="/gameonz-logo.png" alt="Gameonz" class="logo" />
+    <button class="lang-btn" id="lang-btn" aria-label="Switch language">EN</button>
+  </nav>
+
+  <!-- Hero -->
+  <main class="main">
     <div class="container">
-      <div class="badge">EXCLUSIVE ACCESS</div>
-      <h1 class="headline">Unlock Your<br /><span class="accent">Gameonz Pass</span></h1>
-      <p class="sub">Premium gaming content, daily drops &amp; exclusive rewards — delivered straight to your Etisalat number.</p>
 
-      <div class="card" id="step-phone">
-        <p class="card-label">Enter your Etisalat mobile number</p>
-        <div class="input-row">
-          <span class="prefix">+971</span>
-          <input
-            type="tel"
-            id="phone"
-            placeholder="5X XXX XXXX"
-            maxlength="9"
-            inputmode="numeric"
-            autocomplete="tel"
-          />
+      <div class="hero-text">
+        <div class="badge">
+          <span class="badge-dot"></span>
+          <span data-i18n="badge">وصول حصري</span>
         </div>
-        <button class="btn-primary" id="btn-request">GET MY PIN</button>
-        <p class="terms">AED 3.25/day after 24hr free trial. Cancel anytime: send <strong>STOP GD</strong> to <strong>1741</strong>. By continuing you agree to the <a href="#">Terms &amp; Conditions</a>.</p>
+        <h1 class="headline" data-i18n="headline">العب &bull; انتصر &bull; استمتع</h1>
+        <p class="sub" data-i18n="sub">اشترك في Gameonz واستمتع بأكثر من 1000 لعبة حصرية مباشرةً على رقم اتصالات الإمارات الخاص بك</p>
       </div>
 
+      <!-- Step 1: Phone -->
+      <div class="card" id="step-phone">
+        <p class="card-label" data-i18n="phone_label">أدخل رقم اتصالات الإمارات</p>
+        <div class="input-row" dir="ltr">
+          <span class="prefix">+971</span>
+          <input type="tel" id="phone" placeholder="5X XXX XXXX" maxlength="9" inputmode="numeric" autocomplete="tel" />
+        </div>
+        <button class="btn-primary" id="btn-request">
+          <span class="btn-text" data-i18n="get_pin">احصل على رمز PIN</span>
+          <span class="btn-shine"></span>
+        </button>
+        <p class="terms" data-i18n="terms">بالمتابعة، أنت توافق على الشروط والأحكام. AED 3.25/يوم بعد 24 ساعة مجانية. للإلغاء أرسل <strong>STOP GD</strong> إلى <strong>1741</strong></p>
+      </div>
+
+      <!-- Step 2: PIN -->
       <div class="card hidden" id="step-pin">
-        <p class="card-label">Enter the PIN sent to your phone</p>
-        <input
-          type="text"
-          id="pin"
-          placeholder="• • • •"
-          maxlength="4"
-          inputmode="numeric"
-          autocomplete="one-time-code"
-          class="pin-input"
-        />
-        <button class="btn-primary" id="btn-verify">VERIFY &amp; ACTIVATE</button>
-        <button class="btn-ghost" id="btn-resend">Resend PIN</button>
+        <div class="pin-lock">🔐</div>
+        <p class="card-label" data-i18n="pin_label">أدخل رمز PIN المرسل إلى هاتفك</p>
+        <input type="text" id="pin" placeholder="• • • •" maxlength="4" inputmode="numeric" autocomplete="one-time-code" class="pin-input" dir="ltr" />
+        <button class="btn-primary" id="btn-verify">
+          <span class="btn-text" data-i18n="verify">تحقق وفعّل</span>
+          <span class="btn-shine"></span>
+        </button>
+        <button class="btn-ghost" id="btn-resend">
+          <span data-i18n="resend">إعادة إرسال PIN</span>
+        </button>
       </div>
 
+      <!-- Step 3: Success -->
       <div class="card hidden" id="step-success">
-        <div class="success-icon">&#10003;</div>
-        <h2 class="success-title">You're In!</h2>
-        <p class="success-msg">Your Gameonz Pass is now active. Enjoy exclusive content &amp; daily rewards.</p>
+        <div class="success-aura">
+          <div class="success-icon">✓</div>
+        </div>
+        <h2 class="success-title" data-i18n="success_title">!أهلاً بك</h2>
+        <p class="success-msg" data-i18n="success_msg">اشتراكك في Gameonz نشط الآن. استمتع بالمحتوى الحصري والمكافآت اليومية.</p>
       </div>
 
+      <!-- Features -->
       <div class="features">
-        <div class="feature"><span class="feat-icon">&#127918;</span><span>1000+ Games</span></div>
-        <div class="feature"><span class="feat-icon">&#127942;</span><span>Daily Tournaments</span></div>
-        <div class="feature"><span class="feat-icon">&#127381;</span><span>Exclusive Drops</span></div>
+        <div class="feat">
+          <span class="feat-ico">🎮</span>
+          <span data-i18n="f1">1000+ لعبة</span>
+        </div>
+        <div class="feat">
+          <span class="feat-ico">🏆</span>
+          <span data-i18n="f2">بطولات يومية</span>
+        </div>
+        <div class="feat">
+          <span class="feat-ico">🎁</span>
+          <span data-i18n="f3">مكافآت حصرية</span>
+        </div>
       </div>
+
     </div>
-  </div>
+  </main>
 
   <script src="lander.js"></script>
 </body>
