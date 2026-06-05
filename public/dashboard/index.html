@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MVAS Admin Dashboard</title>
+  <link rel="stylesheet" href="dashboard.css" />
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <span class="logo">MVAS <span class="logo-accent">Admin</span></span>
+      <span class="offer-tag">Offer 4910 &bull; Aff 598 &bull; UAE / Etisalat</span>
+    </div>
+  </div>
+
+  <main class="main">
+    <!-- Stats row -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-value" id="stat-total">—</div>
+        <div class="stat-label">Total Leads</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value green" id="stat-converted">—</div>
+        <div class="stat-label">Converted</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value yellow" id="stat-pending">—</div>
+        <div class="stat-label">Pending</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value red" id="stat-failed">—</div>
+        <div class="stat-label">Failed</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-cvr">—</div>
+        <div class="stat-label">CVR %</div>
+      </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <div class="toolbar-left">
+        <select id="filter-status" class="select">
+          <option value="">All Statuses</option>
+          <option value="pending">Pending</option>
+          <option value="converted">Converted</option>
+          <option value="failed">Failed</option>
+        </select>
+        <input type="date" id="filter-date-from" class="input-date" placeholder="From" />
+        <input type="date" id="filter-date-to" class="input-date" placeholder="To" />
+        <button class="btn-filter" id="btn-apply">Apply</button>
+        <button class="btn-ghost-sm" id="btn-reset">Reset</button>
+      </div>
+      <div class="toolbar-right">
+        <button class="btn-export" id="btn-export">&#8595; Export CSV</button>
+        <button class="btn-ghost-sm" id="btn-refresh">&#8635; Refresh</button>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="table-wrap">
+      <table class="leads-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Date</th>
+            <th>MSISDN</th>
+            <th>Click ID</th>
+            <th>Request ID</th>
+            <th>Status</th>
+            <th>Converted At</th>
+            <th>Postback</th>
+          </tr>
+        </thead>
+        <tbody id="leads-tbody">
+          <tr><td colspan="8" class="loading">Loading...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pagination" id="pagination"></div>
+  </main>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>

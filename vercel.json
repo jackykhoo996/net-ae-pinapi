@@ -3,8 +3,9 @@
   "public": false,
   "routes": [
     { "src": "/api/(.*)", "dest": "/api/$1" },
-    { "src": "/dashboard", "dest": "/dashboard/index.html" },
-    { "src": "/dashboard/(.*)", "dest": "/dashboard/$1" },
+    { "src": "/dashboard", "status": 308, "headers": { "Location": "/dashboard/" } },
+    { "src": "/dashboard/", "dest": "/public/dashboard/index.html" },
+    { "src": "/dashboard/(.*)", "dest": "/public/dashboard/$1" },
     { "src": "/", "dest": "/public/index.html" },
     { "src": "/(.*)", "dest": "/public/$1" }
   ]
