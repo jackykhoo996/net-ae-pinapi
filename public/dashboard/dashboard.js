@@ -27,6 +27,12 @@
     return '<span class="pill ' + cls + '">' + escHtml(status) + '</span>';
   }
 
+  function carrierPill(val) {
+    if (!val) return '<span class="muted-dash">—</span>';
+    var isErr = val.toUpperCase().indexOf('ERROR') === 0;
+    return '<span class="pill ' + (isErr ? 'pill-failed' : 'pill-converted') + ' pill-sm">' + escHtml(val) + '</span>';
+  }
+
   // ── Init ────────────────────────────────────────────────────────────────────
   fetch('/api/config')
     .then(function (r) { return r.json(); })
@@ -56,7 +62,7 @@
 
     var query = supabase
       .from('leads')
-      .select('id, msisdn, click_id, request_id, status, created_at, converted_at')
+      .select('id, msisdn, click_id, request_id, status, created_at, converted_at, carrier_req_status, carrier_ver_status')
       .order('created_at', { ascending: false })
       .limit(2000);
 
@@ -122,7 +128,7 @@
     var tbody = document.getElementById('leads-tbody');
 
     if (!slice.length) {
-      tbody.innerHTML = '<tr><td colspan="8" class="empty">No leads found.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="10" class="empty">No leads found.</td></tr>';
       return;
     }
 
@@ -137,6 +143,8 @@
         '<td title="' + escHtml(r.click_id || '') + '">' + truncate(r.click_id, 16) + '</td>' +
         '<td title="' + escHtml(r.request_id || '') + '">' + truncate(r.request_id, 12) + '</td>' +
         '<td>' + statusPill(r.status) + '</td>' +
+        '<td>' + carrierPill(r.carrier_req_status) + '</td>' +
+        '<td>' + carrierPill(r.carrier_ver_status) + '</td>' +
         '<td>' + formatDate(r.converted_at) + '</td>' +
         '<td id="pb-' + escHtml(r.id) + '"><span class="dot dot-none" title="Loading..."></span></td>' +
         '</tr>';
@@ -146,7 +154,7 @@
 
   function renderError(msg) {
     document.getElementById('leads-tbody').innerHTML =
-      '<tr><td colspan="8" class="error">' + escHtml(msg) + '</td></tr>';
+      '<tr><td colspan="10" class="error">' + escHtml(msg) + '</td></tr>';
   }
 
   function renderPagination(total) {
@@ -171,7 +179,7 @@
 
   // ── Export CSV ────────────────────────────────────────────────────────────────
   function exportCsv() {
-    var headers = ['#', 'Date', 'MSISDN', 'Click ID', 'Request ID', 'Status', 'Converted At'];
+    var headers = ['#', 'Date', 'MSISDN', 'Click ID', 'Request ID', 'Status', 'PIN Req', 'PIN Ver', 'Converted At'];
     var rows = allLeads.map(function (r, i) {
       return [
         i + 1,
@@ -180,6 +188,8 @@
         r.click_id || '',
         r.request_id || '',
         r.status || '',
+        r.carrier_req_status || '',
+        r.carrier_ver_status || '',
         r.converted_at || ''
       ].map(function (v) { return '"' + String(v).replace(/"/g, '""') + '"'; }).join(',');
     });

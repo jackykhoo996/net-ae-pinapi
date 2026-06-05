@@ -197,6 +197,8 @@ td.error { color: var(--red); }
 .pill-converted { background: rgba(0,230,118,.15); color: var(--green); }
 .pill-pending   { background: rgba(255,234,0,.12); color: var(--yellow); }
 .pill-failed    { background: rgba(255,23,68,.12); color: var(--red); }
+.pill-sm        { padding: 2px 8px; font-size: 10px; text-transform: none; letter-spacing: 0; }
+.muted-dash     { color: var(--muted); font-size: 13px; }
 
 /* ── Postback indicator ── */
 .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; }
