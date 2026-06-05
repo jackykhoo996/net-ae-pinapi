@@ -62,8 +62,8 @@
 
   btnRequest.addEventListener('click', function () {
     var raw = phoneInput.value.trim().replace(/\D/g, '');
-    if (raw.length < 7 || raw.length > 10) {
-      showToast('Please enter a valid UAE mobile number.');
+    if (raw.length !== 9) {
+      showToast('Please enter your 9-digit Etisalat number (e.g. 5X XXX XXXX).');
       return;
     }
     msisdn = '+971' + raw;
@@ -95,7 +95,7 @@
 
   btnVerify.addEventListener('click', function () {
     var pin = pinInput.value.trim();
-    if (!pin || pin.length < 4) {
+    if (!pin || pin.length !== 4) {
       showToast('Please enter the PIN sent to your phone.');
       return;
     }

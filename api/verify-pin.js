@@ -20,11 +20,24 @@ module.exports = async (req, res) => {
 
   let carrierData;
   try {
-    const response = await fetch(process.env.VERIFY_PIN_API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ pin, request_id })
-    });
+    // Carrier expects GET with query params; msisdn sent without leading +
+    const url = new URL(process.env.VERIFY_PIN_API_URL);
+    url.searchParams.set('offer_id', '4910');
+    url.searchParams.set('aff_id', '598');
+    url.searchParams.set('click_id', click_id);
+    url.searchParams.set('pub_id', '');
+    url.searchParams.set('gid', '299');
+    url.searchParams.set('shortcode', '1741');
+    url.searchParams.set('keyword', 'gd');
+    url.searchParams.set('telco', 'etisalat');
+    url.searchParams.set('action', 'pin_verify');
+    url.searchParams.set('msisdn', msisdn.replace(/^\+/, ''));
+    url.searchParams.set('country', 'uae');
+    url.searchParams.set('lang', 'en');
+    url.searchParams.set('pin_code', pin);
+    url.searchParams.set('request_id', request_id);
+    url.searchParams.set('domain_name', process.env.DOMAIN_NAME || '');
+    const response = await fetch(url.toString());
     carrierData = await response.json();
     console.log(`[verify-pin] carrier response: ${JSON.stringify(carrierData)}`);
   } catch (err) {
@@ -39,7 +52,13 @@ module.exports = async (req, res) => {
     .eq('request_id', request_id)
     .maybeSingle();
 
-  if (!carrierData.success) {
+  // Accept multiple carrier success patterns (result_code:0, code:0, status:'success', success:true)
+  const isSuccess = carrierData.result_code === 0 ||
+                    carrierData.code === 0 ||
+                    carrierData.status === 'success' ||
+                    carrierData.success === true;
+
+  if (!isSuccess) {
     if (lead) {
       await supabase.from('leads').update({ status: 'failed' }).eq('id', lead.id);
     }
