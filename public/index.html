@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ultimate Gaming Pass — UAE</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="hero">
+    <div class="glow-ring"></div>
+    <div class="container">
+      <div class="badge">EXCLUSIVE ACCESS</div>
+      <h1 class="headline">Unlock Your<br /><span class="accent">Ultimate Gaming Pass</span></h1>
+      <p class="sub">Premium gaming content, daily drops &amp; exclusive rewards — delivered straight to your Etisalat number.</p>
+
+      <div class="card" id="step-phone">
+        <p class="card-label">Enter your Etisalat mobile number</p>
+        <div class="input-row">
+          <span class="prefix">+971</span>
+          <input
+            type="tel"
+            id="phone"
+            placeholder="5X XXX XXXX"
+            maxlength="10"
+            inputmode="numeric"
+            autocomplete="tel"
+          />
+        </div>
+        <button class="btn-primary" id="btn-request">GET MY PIN</button>
+        <p class="terms">By continuing you agree to the <a href="#">Terms &amp; Conditions</a>. AED 2/day. Cancel anytime.</p>
+      </div>
+
+      <div class="card hidden" id="step-pin">
+        <p class="card-label">Enter the PIN sent to your phone</p>
+        <input
+          type="text"
+          id="pin"
+          placeholder="• • • • • •"
+          maxlength="6"
+          inputmode="numeric"
+          autocomplete="one-time-code"
+          class="pin-input"
+        />
+        <button class="btn-primary" id="btn-verify">VERIFY &amp; ACTIVATE</button>
+        <button class="btn-ghost" id="btn-resend">Resend PIN</button>
+      </div>
+
+      <div class="card hidden" id="step-success">
+        <div class="success-icon">&#10003;</div>
+        <h2 class="success-title">You're In!</h2>
+        <p class="success-msg">Your Gaming Pass is now active. Enjoy exclusive content &amp; daily rewards.</p>
+      </div>
+
+      <div class="features">
+        <div class="feature"><span class="feat-icon">&#127918;</span><span>1000+ Games</span></div>
+        <div class="feature"><span class="feat-icon">&#127942;</span><span>Daily Tournaments</span></div>
+        <div class="feature"><span class="feat-icon">&#127381;</span><span>Exclusive Drops</span></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="lander.js"></script>
+</body>
+</html>
