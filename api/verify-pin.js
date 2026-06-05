@@ -64,15 +64,25 @@ module.exports = async (req, res) => {
     .eq('request_id', request_id)
     .maybeSingle();
 
-  // Accept multiple carrier success patterns (result_code:0, code:0, status:'success', success:true)
+  const verStatus = carrierData.status
+    ? (carrierData.desc && carrierData.desc !== 'OK'
+        ? `${carrierData.status}: ${carrierData.desc}`
+        : carrierData.status)
+    : 'UNKNOWN';
+
+  // Accept multiple carrier success patterns (result_code:0, code:0, status:'SUCCESS'/'success', success:true)
   const isSuccess = carrierData.result_code === 0 ||
                     carrierData.code === 0 ||
-                    carrierData.status === 'success' ||
+                    (carrierData.status || '').toUpperCase() === 'SUCCESS' ||
                     carrierData.success === true;
 
   if (!isSuccess) {
     if (lead) {
-      await supabase.from('leads').update({ status: 'failed', carrier_verify_raw: verifyRaw }).eq('id', lead.id);
+      await supabase.from('leads').update({
+        status: 'failed',
+        carrier_verify_raw: verifyRaw,
+        carrier_ver_status: verStatus
+      }).eq('id', lead.id);
     }
     console.log(`[verify-pin] invalid PIN for ${msisdn}`);
     return res.status(200).json({ success: false, error: 'invalid_pin' });
@@ -81,7 +91,12 @@ module.exports = async (req, res) => {
   if (lead) {
     await supabase
       .from('leads')
-      .update({ status: 'converted', converted_at: new Date().toISOString(), carrier_verify_raw: verifyRaw })
+      .update({
+        status: 'converted',
+        converted_at: new Date().toISOString(),
+        carrier_verify_raw: verifyRaw,
+        carrier_ver_status: verStatus
+      })
       .eq('id', lead.id);
   }
 

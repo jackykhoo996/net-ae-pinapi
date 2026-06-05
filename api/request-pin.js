@@ -72,12 +72,19 @@ module.exports = async (req, res) => {
     return res.status(200).json({ success: false, error: 'carrier_error', message: 'No request_id in carrier response' });
   }
 
+  const reqStatus = carrierData.status
+    ? (carrierData.desc && carrierData.desc !== 'OK'
+        ? `${carrierData.status}: ${carrierData.desc}`
+        : carrierData.status)
+    : 'UNKNOWN';
+
   const { error: insertError } = await supabase.from('leads').insert({
     msisdn,
     click_id,
     request_id: carrierData.request_id,
     status: 'pending',
-    carrier_request_raw: carrierRaw
+    carrier_request_raw: carrierRaw,
+    carrier_req_status: reqStatus
   });
 
   if (insertError) {
