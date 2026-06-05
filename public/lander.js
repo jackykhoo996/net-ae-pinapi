@@ -4,6 +4,9 @@
   /* ── i18n ── */
   var translations = {
     ar: {
+      hv_offer: 'عرض حصري الآن',
+      hv_cta:   'ابدأ اللعب مجاناً',
+      hv_meta:  '٢٤ ساعة مجانية · ١٠٠٠+ لعبة',
       badge:         'وصول حصري',
       headline:      'العب &bull; انتصر &bull; استمتع',
       sub:           'اشترك في Gameonz واستمتع بأكثر من 1000 لعبة حصرية مباشرةً على رقم اتصالات الإمارات الخاص بك',
@@ -30,6 +33,9 @@
       lang_label:          'EN'
     },
     en: {
+      hv_offer: 'EXCLUSIVE OFFER',
+      hv_cta:   'Play Free Now',
+      hv_meta:  '24 Hours Free · 1000+ Games',
       badge:         'EXCLUSIVE ACCESS',
       headline:      'Play &bull; Win &bull; Enjoy',
       sub:           'Subscribe to Gameonz and enjoy 1000+ exclusive games directly on your Etisalat UAE number',
