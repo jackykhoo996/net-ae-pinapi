@@ -1,0 +1,14 @@
+{
+  "name": "net-ae-pinapi",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "jest --testEnvironment node"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
