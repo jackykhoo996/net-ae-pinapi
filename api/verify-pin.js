@@ -21,8 +21,7 @@ module.exports = async (req, res) => {
   let carrierData;
   let verifyRaw = '';
   try {
-    // Carrier expects 9-digit local format (strip +971 or 971 prefix)
-    const localMsisdn = msisdn.replace(/^\+?971/, '');
+    // Carrier expects MSISDN without leading + (e.g. 971XXXXXXXXX)
     const url = new URL(process.env.VERIFY_PIN_API_URL);
     url.searchParams.set('offer_id', '4910');
     url.searchParams.set('aff_id', '598');
@@ -33,7 +32,7 @@ module.exports = async (req, res) => {
     url.searchParams.set('keyword', 'gd');
     url.searchParams.set('telco', 'etisalat');
     url.searchParams.set('action', 'pin_verify');
-    url.searchParams.set('msisdn', localMsisdn);
+    url.searchParams.set('msisdn', msisdn.replace(/^\+/, ''));
     url.searchParams.set('country', 'uae');
     url.searchParams.set('lang', 'en');
     url.searchParams.set('pin_code', pin);
@@ -45,7 +44,6 @@ module.exports = async (req, res) => {
       carrierData = JSON.parse(verifyRaw);
     } catch (_) {
       console.error(`[verify-pin] carrier non-JSON response: ${verifyRaw.slice(0, 200)}`);
-      // Still persist the raw error so it's visible in Supabase
       const { data: badLead } = await supabase.from('leads').select('id').eq('msisdn', msisdn).eq('request_id', request_id).maybeSingle();
       if (badLead) {
         await supabase.from('leads').update({ status: 'failed', carrier_verify_raw: verifyRaw }).eq('id', badLead.id);
@@ -71,10 +69,11 @@ module.exports = async (req, res) => {
         : carrierData.status)
     : 'UNKNOWN';
 
-  // PureTech returns status:'OK' on success; also handle result_code/code/success variants
-  const isSuccess = (carrierData.status || '').toUpperCase() === 'OK' ||
-                    carrierData.result_code === 0 ||
+  // Accept multiple carrier success patterns
+  const isSuccess = carrierData.result_code === 0 ||
                     carrierData.code === 0 ||
+                    (carrierData.status || '').toUpperCase() === 'OK' ||
+                    (carrierData.status || '').toUpperCase() === 'SUCCESS' ||
                     carrierData.success === true;
 
   if (!isSuccess) {

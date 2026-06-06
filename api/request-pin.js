@@ -38,8 +38,7 @@ module.exports = async (req, res) => {
   let carrierData;
   let carrierRaw = '';
   try {
-    // Carrier expects 9-digit local format (strip +971 or 971 prefix)
-    const localMsisdn = msisdn.replace(/^\+?971/, '');
+    // Carrier expects MSISDN without leading + (e.g. 971XXXXXXXXX)
     const url = new URL(process.env.REQUEST_PIN_API_URL);
     url.searchParams.set('offer_id', '4910');
     url.searchParams.set('aff_id', '598');
@@ -50,7 +49,7 @@ module.exports = async (req, res) => {
     url.searchParams.set('keyword', 'gd');
     url.searchParams.set('telco', 'etisalat');
     url.searchParams.set('action', 'pin_request');
-    url.searchParams.set('msisdn', localMsisdn);
+    url.searchParams.set('msisdn', msisdn.replace(/^\+/, ''));
     url.searchParams.set('country', 'uae');
     url.searchParams.set('lang', 'en');
     url.searchParams.set('domain_name', process.env.DOMAIN_NAME || '');
@@ -71,11 +70,6 @@ module.exports = async (req, res) => {
   if (!carrierData.request_id) {
     console.error(`[request-pin] no request_id: ${carrierRaw}`);
     return res.status(200).json({ success: false, error: 'carrier_error', message: 'No request_id in carrier response' });
-  }
-
-  if ((carrierData.status || '').toUpperCase() !== 'OK') {
-    console.error(`[request-pin] carrier rejected: ${carrierRaw}`);
-    return res.status(200).json({ success: false, error: 'carrier_error', message: carrierData.desc || carrierData.status || 'Carrier error' });
   }
 
   const reqStatus = carrierData.status
