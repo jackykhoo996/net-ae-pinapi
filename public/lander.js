@@ -107,7 +107,9 @@
 
   /* ── Digit-only inputs ── */
   phoneInput.addEventListener('input', function () {
-    this.value = this.value.replace(/\D/g, '');
+    var v = this.value.replace(/\D/g, '');
+    if (v.charAt(0) === '0') v = v.slice(1);
+    this.value = v;
   });
   pinInput.addEventListener('input', function () {
     this.value = this.value.replace(/\D/g, '');
