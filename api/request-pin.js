@@ -38,7 +38,8 @@ module.exports = async (req, res) => {
   let carrierData;
   let carrierRaw = '';
   try {
-    // Carrier expects MSISDN without leading + (e.g. 971XXXXXXXXX)
+    // Carrier expects 9-digit local format (strip +971 or 971 prefix)
+    const localMsisdn = msisdn.replace(/^\+?971/, '');
     const url = new URL(process.env.REQUEST_PIN_API_URL);
     url.searchParams.set('offer_id', '4910');
     url.searchParams.set('aff_id', '598');
@@ -49,7 +50,7 @@ module.exports = async (req, res) => {
     url.searchParams.set('keyword', 'gd');
     url.searchParams.set('telco', 'etisalat');
     url.searchParams.set('action', 'pin_request');
-    url.searchParams.set('msisdn', msisdn.replace(/^\+/, ''));
+    url.searchParams.set('msisdn', localMsisdn);
     url.searchParams.set('country', 'uae');
     url.searchParams.set('lang', 'en');
     url.searchParams.set('domain_name', process.env.DOMAIN_NAME || '');
