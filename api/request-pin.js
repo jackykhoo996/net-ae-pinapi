@@ -10,9 +10,9 @@ module.exports = async (req, res) => {
     return res.status(405).json({ success: false, error: 'method_not_allowed' });
   }
 
-  const { msisdn, click_id } = req.body;
+  const { msisdn, click_id = '' } = req.body;
 
-  if (!msisdn || !click_id) {
+  if (!msisdn) {
     return res.status(400).json({ success: false, error: 'missing_fields' });
   }
 
