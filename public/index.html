@@ -68,6 +68,11 @@
 
       <!-- Step 2: PIN -->
       <div class="card hidden" id="step-pin">
+        <!-- Shown while waiting for carrier to send the PIN -->
+        <div class="pin-sending hidden" id="pin-sending">
+          <div class="sending-spinner"></div>
+          <span data-i18n="sending_pin">جاري إرسال رمز PIN إلى هاتفك...</span>
+        </div>
         <div class="pin-lock">🔐</div>
         <p class="card-label" data-i18n="pin_label">أدخل رمز PIN المرسل إلى هاتفك</p>
         <input type="text" id="pin" placeholder="• • • •" maxlength="4" inputmode="numeric" autocomplete="one-time-code" class="pin-input" dir="ltr" />

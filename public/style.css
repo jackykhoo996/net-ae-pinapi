@@ -277,6 +277,30 @@ input[type="text"] {
 }
 input::placeholder { color: rgba(255,255,255,0.2); }
 
+/* ── PIN sending indicator ── */
+.pin-sending {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255,92,26,0.06);
+  border: 1px solid rgba(255,92,26,0.2);
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--orange2);
+}
+.sending-spinner {
+  flex-shrink: 0;
+  width: 16px; height: 16px;
+  border: 2px solid rgba(255,92,26,0.25);
+  border-top-color: var(--orange);
+  border-radius: 50%;
+  animation: spin .75s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
 /* ── PIN input ── */
 .pin-lock {
   font-size: 36px;

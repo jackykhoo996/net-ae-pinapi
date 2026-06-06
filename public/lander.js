@@ -32,7 +32,8 @@
       wait:                'جاري التحميل...',
       lang_label:          'EN',
       detected_label:      'تم اكتشاف رقمك',
-      not_my_number:       'ليس رقمي؟'
+      not_my_number:       'ليس رقمي؟',
+      sending_pin:         'جاري إرسال رمز PIN إلى هاتفك...'
     },
     en: {
       hv_offer: 'EXCLUSIVE OFFER',
@@ -63,7 +64,8 @@
       wait:                'Please wait...',
       lang_label:          'عربي',
       detected_label:      'Number Detected',
-      not_my_number:       'Not my number?'
+      not_my_number:       'Not my number?',
+      sending_pin:         'Sending PIN to your phone...'
     }
   };
 
@@ -167,6 +169,8 @@
   }
 
   /* ── Request PIN ── */
+  var sendingEl = document.getElementById('pin-sending');
+
   btnRequest.addEventListener('click', function () {
     var raw = phoneInput.value.trim().replace(/\D/g, '');
     if (raw.length !== 9) {
@@ -175,7 +179,13 @@
     }
     msisdn = '+971' + raw;
 
-    setLoading(btnRequest, true);
+    // Transition immediately — no waiting
+    showStep(stepPin);
+    sendingEl.classList.remove('hidden');
+    pinInput.disabled = true;
+    btnVerify.disabled = true;
+    btnResend.disabled = true;
+
     fetch('/api/request-pin', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -183,18 +193,26 @@
     })
       .then(function (r) { return r.json(); })
       .then(function (data) {
+        sendingEl.classList.add('hidden');
         if (data.success) {
           requestId = data.request_id;
-          showStep(stepPin);
+          pinInput.disabled = false;
+          btnVerify.disabled = false;
+          btnResend.disabled = false;
           pinInput.focus();
         } else if (data.error === 'already_registered') {
+          showStep(stepPhone);
           showToast(t('toast_already_reg'));
         } else {
+          showStep(stepPhone);
           showToast(t('toast_fail'));
         }
       })
-      .catch(function () { showToast(t('toast_network')); })
-      .finally(function () { setLoading(btnRequest, false); });
+      .catch(function () {
+        sendingEl.classList.add('hidden');
+        showStep(stepPhone);
+        showToast(t('toast_network'));
+      });
   });
 
   /* ── Verify PIN ── */
