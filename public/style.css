@@ -450,6 +450,60 @@ html[dir="ltr"] .btn-ghost { font-family: var(--font-en); letter-spacing: .5px; 
 }
 .toast.show { opacity: 1; }
 
+/* ── Auto-detected MSISDN row ── */
+.detected-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: rgba(0,230,118,0.06);
+  border: 1px solid rgba(0,230,118,0.22);
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+}
+.detected-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.detected-ico { font-size: 22px; line-height: 1; }
+.detected-lbl {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .5px;
+  color: #00e676;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+.detected-num {
+  font-family: var(--font-en);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 1px;
+  direction: ltr;
+}
+.btn-change-num {
+  flex-shrink: 0;
+  background: transparent;
+  border: 1px solid rgba(255,92,26,0.35);
+  border-radius: 8px;
+  color: var(--orange);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .2s, border-color .2s;
+  font-family: var(--font-ar);
+}
+html[dir="ltr"] .btn-change-num { font-family: var(--font-en); letter-spacing: .4px; }
+.btn-change-num:hover {
+  background: rgba(255,92,26,0.12);
+  border-color: var(--orange);
+}
+
 /* ── Utility ── */
 .hidden { display: none !important; }
 

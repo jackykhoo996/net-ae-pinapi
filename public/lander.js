@@ -30,7 +30,9 @@
       toast_pin_length:    'أدخل رمز PIN المكون من 4 أرقام',
       phone_placeholder:   'XXXX XXX X5',
       wait:                'جاري التحميل...',
-      lang_label:          'EN'
+      lang_label:          'EN',
+      detected_label:      'تم اكتشاف رقمك',
+      not_my_number:       'ليس رقمي؟'
     },
     en: {
       hv_offer: 'EXCLUSIVE OFFER',
@@ -59,7 +61,9 @@
       toast_pin_length:    'Please enter the 4-digit PIN',
       phone_placeholder:   '5X XXX XXXX',
       wait:                'Please wait...',
-      lang_label:          'عربي'
+      lang_label:          'عربي',
+      detected_label:      'Number Detected',
+      not_my_number:       'Not my number?'
     }
   };
 
@@ -95,15 +99,20 @@
   var msisdn    = '';
 
   /* ── DOM ── */
-  var stepPhone   = document.getElementById('step-phone');
-  var stepPin     = document.getElementById('step-pin');
-  var stepSuccess = document.getElementById('step-success');
-  var phoneInput  = document.getElementById('phone');
-  var pinInput    = document.getElementById('pin');
-  var btnRequest  = document.getElementById('btn-request');
-  var btnVerify   = document.getElementById('btn-verify');
-  var btnResend   = document.getElementById('btn-resend');
-  var langBtn     = document.getElementById('lang-btn');
+  var stepPhone    = document.getElementById('step-phone');
+  var stepPin      = document.getElementById('step-pin');
+  var stepSuccess  = document.getElementById('step-success');
+  var phoneInput   = document.getElementById('phone');
+  var pinInput     = document.getElementById('pin');
+  var btnRequest   = document.getElementById('btn-request');
+  var btnVerify    = document.getElementById('btn-verify');
+  var btnResend    = document.getElementById('btn-resend');
+  var langBtn      = document.getElementById('lang-btn');
+  var phoneRow     = document.getElementById('phone-row');
+  var detectedRow  = document.getElementById('detected-row');
+  var detectedNum  = document.getElementById('detected-num');
+  var phoneLabel   = document.getElementById('phone-label');
+  var btnChange    = document.getElementById('btn-change');
 
   /* ── Digit-only inputs ── */
   phoneInput.addEventListener('input', function () {
@@ -241,6 +250,52 @@
       .catch(function () { showToast(t('toast_network')); })
       .finally(function () { setLoading(btnResend, false); });
   });
+
+  /* ── Auto-detect MSISDN from carrier header ── */
+  function maskLocal(n) {
+    // 501234567 → +971 501 *** 567
+    return '+971 ' + n.slice(0, 3) + ' *** ' + n.slice(6);
+  }
+
+  function showDetected(localNum) {
+    phoneInput.value = localNum;
+    detectedNum.textContent = maskLocal(localNum);
+    detectedRow.classList.remove('hidden');
+    phoneRow.classList.add('hidden');
+    phoneLabel.classList.add('hidden');
+  }
+
+  function resetToManual() {
+    phoneInput.value = '';
+    detectedRow.classList.add('hidden');
+    phoneRow.classList.remove('hidden');
+    phoneLabel.classList.remove('hidden');
+    phoneInput.focus();
+  }
+
+  btnChange.addEventListener('click', resetToManual);
+
+  // Check URL params first (traffic source may pass msisdn/phone/ani/cli)
+  var urlMsisdn = (function () {
+    var p = new URLSearchParams(window.location.search);
+    var raw = p.get('msisdn') || p.get('phone') || p.get('mobile') || p.get('ani') || p.get('cli') || '';
+    raw = raw.replace(/[\s\-]/g, '');
+    if (raw.startsWith('+971'))      raw = raw.slice(4);
+    else if (raw.startsWith('00971')) raw = raw.slice(5);
+    else if (raw.startsWith('971') && raw.length === 12) raw = raw.slice(3);
+    if (raw.startsWith('0'))         raw = raw.slice(1);
+    return /^5\d{8}$/.test(raw) ? raw : '';
+  }());
+
+  if (urlMsisdn) {
+    showDetected(urlMsisdn);
+  } else {
+    // Fall back to server-side carrier header detection
+    fetch('/api/detect-msisdn')
+      .then(function (r) { return r.json(); })
+      .then(function (data) { if (data.msisdn) showDetected(data.msisdn); })
+      .catch(function () { /* silently ignore — show normal input */ });
+  }
 
   /* ── Init ── */
   applyLang();

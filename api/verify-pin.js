@@ -21,7 +21,7 @@ module.exports = async (req, res) => {
   let carrierData;
   let verifyRaw = '';
   try {
-    // Carrier expects GET with query params; msisdn sent without leading +
+    // Carrier expects MSISDN without leading + (e.g. 971XXXXXXXXX)
     const url = new URL(process.env.VERIFY_PIN_API_URL);
     url.searchParams.set('offer_id', '4910');
     url.searchParams.set('aff_id', '598');
@@ -70,10 +70,10 @@ module.exports = async (req, res) => {
         : carrierData.status)
     : 'UNKNOWN';
 
-  // Accept multiple carrier success patterns (result_code:0, code:0, status:'SUCCESS'/'success', success:true)
-  const isSuccess = carrierData.result_code === 0 ||
+  // PureTech returns status:'OK' on success; also handle result_code/code/success variants
+  const isSuccess = (carrierData.status || '').toUpperCase() === 'OK' ||
+                    carrierData.result_code === 0 ||
                     carrierData.code === 0 ||
-                    (carrierData.status || '').toUpperCase() === 'SUCCESS' ||
                     carrierData.success === true;
 
   if (!isSuccess) {

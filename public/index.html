@@ -38,10 +38,26 @@
 
       <!-- Step 1: Phone -->
       <div class="card" id="step-phone">
-        <p class="card-label" data-i18n="phone_label">أدخل رقم اتصالات الإمارات</p>
-        <div class="input-row">
-          <span class="prefix">🇦🇪 +971</span>
-          <input type="tel" id="phone" placeholder="XXXX XXX X5" maxlength="9" inputmode="numeric" autocomplete="tel" dir="ltr" />
+        <p class="card-label" id="phone-label" data-i18n="phone_label">أدخل رقم اتصالات الإمارات</p>
+
+        <!-- Auto-detected MSISDN (shown when carrier injects the number) -->
+        <div class="detected-row hidden" id="detected-row">
+          <div class="detected-info">
+            <span class="detected-ico">📱</span>
+            <div>
+              <div class="detected-lbl" data-i18n="detected_label">تم اكتشاف رقمك</div>
+              <div class="detected-num" id="detected-num">+971 …</div>
+            </div>
+          </div>
+          <button class="btn-change-num" id="btn-change" data-i18n="not_my_number">ليس رقمي؟</button>
+        </div>
+
+        <!-- Manual input (hidden when MSISDN is auto-detected) -->
+        <div id="phone-row">
+          <div class="input-row">
+            <span class="prefix">🇦🇪 +971</span>
+            <input type="tel" id="phone" placeholder="XXXX XXX X5" maxlength="9" inputmode="numeric" autocomplete="tel" dir="ltr" />
+          </div>
         </div>
         <button class="btn-primary" id="btn-request">
           <span class="btn-text" data-i18n="get_pin">احصل على رمز PIN</span>
