@@ -96,7 +96,7 @@
 
   /* ── URL params ── */
   var params  = new URLSearchParams(window.location.search);
-  var clickId = params.get('clickid') || params.get('click_id') || '';
+  var clickId = params.get('clickid') || params.get('click_id') || params.get('cid') || '';
   var requestId = '';
   var msisdn    = '';
 

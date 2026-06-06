@@ -140,7 +140,7 @@
         '<td>' + rowNum + '</td>' +
         '<td>' + formatDate(r.created_at) + '</td>' +
         '<td>' + escHtml(r.msisdn || '') + '</td>' +
-        '<td title="' + escHtml(r.click_id || '') + '">' + truncate(r.click_id, 16) + '</td>' +
+        '<td title="' + escHtml(r.click_id || '') + '">' + (r.click_id ? truncate(r.click_id, 16) : '<span class="muted-dash">—</span>') + '</td>' +
         '<td title="' + escHtml(r.request_id || '') + '">' + truncate(r.request_id, 12) + '</td>' +
         '<td>' + statusPill(r.status) + '</td>' +
         '<td>' + carrierPill(r.carrier_req_status) + '</td>' +
