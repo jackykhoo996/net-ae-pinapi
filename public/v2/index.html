@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gameonz — كأس العالم 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Rajdhani:wght@500;600;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Background layers -->
+  <div class="bg-blob b1" aria-hidden="true"></div>
+  <div class="bg-blob b2" aria-hidden="true"></div>
+  <div class="bg-blob b3" aria-hidden="true"></div>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="stadium-lights" aria-hidden="true"></div>
+
+  <!-- Nav -->
+  <nav class="nav">
+    <img src="/gameonz-logo.png" alt="Gameonz" class="logo" />
+    <button class="lang-btn" id="lang-btn" aria-label="Switch language">EN</button>
+  </nav>
+
+  <!-- Hero -->
+  <main class="main">
+    <div class="container">
+
+      <div class="hero-text">
+        <div class="badge">
+          <span class="badge-dot"></span>
+          <span data-i18n="badge">⚽ عرض كأس العالم 2026</span>
+        </div>
+        <h1 class="headline" data-i18n="headline">العب &bull; انتصر &bull; احتفل</h1>
+        <p class="sub" data-i18n="sub">انضم إلى ملايين اللاعبين واستمتع بأكثر من 1000 لعبة حصرية خلال موسم كأس العالم FIFA 2026</p>
+      </div>
+
+      <!-- Free trial banner -->
+      <div class="free-banner">
+        <span class="free-ico">🎁</span>
+        <div class="free-text">
+          <span class="free-big" data-i18n="free_big">٢٤ ساعة مجاناً</span>
+          <span class="free-sub" data-i18n="free_sub">ثم AED 3.25 فقط يومياً</span>
+        </div>
+        <span class="free-badge" data-i18n="free_badge">مجاناً</span>
+      </div>
+
+      <!-- Step 1: Phone -->
+      <div class="card" id="step-phone">
+
+        <!-- Urgency -->
+        <div class="urgency-row">
+          <span class="urgency-dot"></span>
+          <span data-i18n="urgency">عرض محدود لموسم كأس العالم — سارع الآن!</span>
+        </div>
+
+        <p class="card-label" id="phone-label" data-i18n="phone_label">أدخل رقم اتصالات الإمارات</p>
+
+        <!-- Auto-detected MSISDN -->
+        <div class="detected-row hidden" id="detected-row">
+          <div class="detected-info">
+            <span class="detected-ico">📱</span>
+            <div>
+              <div class="detected-lbl" data-i18n="detected_label">تم اكتشاف رقمك</div>
+              <div class="detected-num" id="detected-num">+971 …</div>
+            </div>
+          </div>
+          <button class="btn-change-num" id="btn-change" data-i18n="not_my_number">ليس رقمي؟</button>
+        </div>
+
+        <!-- Manual input -->
+        <div id="phone-row">
+          <div class="input-row">
+            <span class="prefix">🇦🇪 +971</span>
+            <input type="tel" id="phone" placeholder="XXXX XXX X5" maxlength="9" inputmode="numeric" autocomplete="tel" dir="ltr" />
+          </div>
+        </div>
+
+        <button class="btn-primary" id="btn-request">
+          <span class="btn-text" data-i18n="get_pin">ابدأ تجربتك المجانية</span>
+          <span class="btn-shine"></span>
+        </button>
+
+        <p class="terms" data-i18n="terms">بالمتابعة، أنت توافق على الشروط والأحكام. AED 3.25/يوم بعد 24 ساعة مجانية. للإلغاء أرسل <strong>STOP GD</strong> إلى <strong>1741</strong></p>
+      </div>
+
+      <!-- Step 2: PIN -->
+      <div class="card hidden" id="step-pin">
+        <div class="pin-sending hidden" id="pin-sending">
+          <div class="sending-spinner"></div>
+          <span data-i18n="sending_pin">جاري إرسال رمز التحقق إلى هاتفك...</span>
+        </div>
+        <div class="pin-lock">🔐</div>
+        <p class="card-label" data-i18n="pin_label_step2">أدخل رمز التحقق المرسل إلى هاتفك</p>
+        <input type="text" id="pin" placeholder="• • • •" maxlength="4" inputmode="numeric" autocomplete="one-time-code" class="pin-input" dir="ltr" />
+        <button class="btn-primary" id="btn-verify">
+          <span class="btn-text" data-i18n="verify">تحقق وفعّل</span>
+          <span class="btn-shine"></span>
+        </button>
+        <button class="btn-ghost" id="btn-resend">
+          <span data-i18n="resend">إعادة إرسال الرمز</span>
+        </button>
+      </div>
+
+      <!-- Step 3: Success -->
+      <div class="card hidden" id="step-success">
+        <div class="success-aura">
+          <div class="success-icon">⚽</div>
+        </div>
+        <h2 class="success-title" data-i18n="success_title">!أهلاً بك في الفريق</h2>
+        <p class="success-msg" data-i18n="success_msg">اشتراكك في Gameonz نشط الآن. استعد لكأس العالم 2026 مع محتوى حصري ومكافآت يومية.</p>
+      </div>
+
+      <!-- Features -->
+      <div class="features">
+        <div class="feat">
+          <span class="feat-ico">⚽</span>
+          <span data-i18n="f1">ألعاب كأس العالم</span>
+        </div>
+        <div class="feat">
+          <span class="feat-ico">🏆</span>
+          <span data-i18n="f2">بطولات يومية</span>
+        </div>
+        <div class="feat">
+          <span class="feat-ico">🥇</span>
+          <span data-i18n="f3">مكافآت حصرية</span>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="lander.js"></script>
+</body>
+</html>
