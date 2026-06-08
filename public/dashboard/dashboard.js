@@ -5,6 +5,7 @@
   var allLeads = [];
   var PAGE_SIZE = 50;
   var currentPage = 1;
+  var currentLander = '';
 
   function escHtml(str) {
     return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -58,17 +59,18 @@
     var from   = document.getElementById('filter-date-from').value;
     var to     = document.getElementById('filter-date-to').value;
 
-    document.getElementById('leads-tbody').innerHTML = '<tr><td colspan="8" class="loading">Loading...</td></tr>';
+    document.getElementById('leads-tbody').innerHTML = '<tr><td colspan="11" class="loading">Loading...</td></tr>';
 
     var query = supabase
       .from('leads')
-      .select('id, msisdn, click_id, request_id, status, created_at, converted_at, carrier_req_status, carrier_ver_status')
+      .select('id, msisdn, click_id, request_id, lander, status, created_at, converted_at, carrier_req_status, carrier_ver_status')
       .order('created_at', { ascending: false })
       .limit(2000);
 
-    if (status) query = query.eq('status', status);
-    if (from)   query = query.gte('created_at', from + 'T00:00:00Z');
-    if (to)     query = query.lte('created_at', to   + 'T23:59:59Z');
+    if (status)        query = query.eq('status', status);
+    if (currentLander) query = query.eq('lander', currentLander);
+    if (from)          query = query.gte('created_at', from + 'T00:00:00Z');
+    if (to)            query = query.lte('created_at', to   + 'T23:59:59Z');
 
     query.then(function (res) {
       if (res.error) {
@@ -128,13 +130,16 @@
     var tbody = document.getElementById('leads-tbody');
 
     if (!slice.length) {
-      tbody.innerHTML = '<tr><td colspan="10" class="empty">No leads found.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="11" class="empty">No leads found.</td></tr>';
       return;
     }
 
     var html = '';
     slice.forEach(function (r, i) {
       var rowNum = start + i + 1;
+      var landerBadge = r.lander === 'v2'
+        ? '<span class="pill pill-v2">V2</span>'
+        : '<span class="pill pill-v1">V1</span>';
       html +=
         '<tr>' +
         '<td>' + rowNum + '</td>' +
@@ -142,6 +147,7 @@
         '<td>' + escHtml(r.msisdn || '') + '</td>' +
         '<td title="' + escHtml(r.click_id || '') + '">' + (r.click_id ? truncate(r.click_id, 16) : '<span class="muted-dash">—</span>') + '</td>' +
         '<td title="' + escHtml(r.request_id || '') + '">' + truncate(r.request_id, 12) + '</td>' +
+        '<td>' + landerBadge + '</td>' +
         '<td>' + statusPill(r.status) + '</td>' +
         '<td>' + carrierPill(r.carrier_req_status) + '</td>' +
         '<td>' + carrierPill(r.carrier_ver_status) + '</td>' +
@@ -154,7 +160,7 @@
 
   function renderError(msg) {
     document.getElementById('leads-tbody').innerHTML =
-      '<tr><td colspan="10" class="error">' + escHtml(msg) + '</td></tr>';
+      '<tr><td colspan="11" class="error">' + escHtml(msg) + '</td></tr>';
   }
 
   function renderPagination(total) {
@@ -179,7 +185,7 @@
 
   // ── Export CSV ────────────────────────────────────────────────────────────────
   function exportCsv() {
-    var headers = ['#', 'Date', 'MSISDN', 'Click ID', 'Request ID', 'Status', 'PIN Req', 'PIN Ver', 'Converted At'];
+    var headers = ['#', 'Date', 'MSISDN', 'Click ID', 'Request ID', 'Lander', 'Status', 'PIN Req', 'PIN Ver', 'Converted At'];
     var rows = allLeads.map(function (r, i) {
       return [
         i + 1,
@@ -187,6 +193,7 @@
         r.msisdn || '',
         r.click_id || '',
         r.request_id || '',
+        r.lander || 'v1',
         r.status || '',
         r.carrier_req_status || '',
         r.carrier_ver_status || '',
@@ -202,6 +209,18 @@
     a.click();
     URL.revokeObjectURL(url);
   }
+
+  // ── Lander tab handlers ──────────────────────────────────────────────────────
+  document.querySelectorAll('.tab-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('.tab-btn').forEach(function (b) { b.classList.remove('active'); });
+      this.classList.add('active');
+      currentLander = this.dataset.lander;
+      if (!supabase) return;
+      currentPage = 1;
+      loadLeads();
+    });
+  });
 
   // ── Event listeners ──────────────────────────────────────────────────────────
   document.getElementById('btn-apply').addEventListener('click', function () {

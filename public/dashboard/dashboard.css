@@ -80,6 +80,26 @@ body {
 .stat-value.red { color: var(--red); }
 .stat-label { font-size: 12px; color: var(--muted); font-weight: 600; letter-spacing: .5px; text-transform: uppercase; }
 
+/* ── Lander tabs ── */
+.lander-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.tab-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 7px 20px;
+  cursor: pointer;
+  transition: border-color .2s, color .2s;
+}
+.tab-btn:hover { border-color: var(--accent); color: var(--accent); }
+.tab-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(0,245,255,.07); }
+
 /* ── Toolbar ── */
 .toolbar {
   display: flex;
@@ -197,6 +217,8 @@ td.error { color: var(--red); }
 .pill-converted { background: rgba(0,230,118,.15); color: var(--green); }
 .pill-pending   { background: rgba(255,234,0,.12); color: var(--yellow); }
 .pill-failed    { background: rgba(255,23,68,.12); color: var(--red); }
+.pill-v1        { background: rgba(0,245,255,.10); color: var(--accent); }
+.pill-v2        { background: rgba(255,160,0,.12); color: #ffa000; }
 .pill-sm        { padding: 2px 8px; font-size: 10px; text-transform: none; letter-spacing: 0; }
 .muted-dash     { color: var(--muted); font-size: 13px; }
 

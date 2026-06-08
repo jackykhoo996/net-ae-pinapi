@@ -10,13 +10,13 @@ module.exports = async (req, res) => {
     return res.status(405).json({ success: false, error: 'method_not_allowed' });
   }
 
-  const { msisdn, click_id = '' } = req.body;
+  const { msisdn, click_id = '', lander = 'v1' } = req.body;
 
   if (!msisdn) {
     return res.status(400).json({ success: false, error: 'missing_fields' });
   }
 
-  console.log(`[request-pin] msisdn=${msisdn} click_id=${click_id}`);
+  console.log(`[request-pin] msisdn=${msisdn} click_id=${click_id} lander=${lander}`);
 
   const { data: existing, error: queryError } = await supabase
     .from('leads')
@@ -81,6 +81,7 @@ module.exports = async (req, res) => {
   const { error: insertError } = await supabase.from('leads').insert({
     msisdn,
     click_id,
+    lander,
     request_id: carrierData.request_id,
     status: 'pending',
     carrier_request_raw: carrierRaw,

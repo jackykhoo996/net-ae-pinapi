@@ -193,7 +193,7 @@
     fetch('/api/request-pin', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ msisdn: msisdn, click_id: clickId })
+      body: JSON.stringify({ msisdn: msisdn, click_id: clickId, lander: 'v1' })
     })
       .then(function (r) { return r.json(); })
       .then(function (data) {
@@ -257,7 +257,7 @@
     fetch('/api/request-pin', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ msisdn: msisdn, click_id: clickId })
+      body: JSON.stringify({ msisdn: msisdn, click_id: clickId, lander: 'v1' })
     })
       .then(function (r) { return r.json(); })
       .then(function (data) {

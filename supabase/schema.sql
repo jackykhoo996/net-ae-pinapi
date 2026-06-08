@@ -9,9 +9,12 @@ CREATE TABLE leads (
   aff_id          TEXT NOT NULL DEFAULT '598',
   carrier         TEXT NOT NULL DEFAULT 'Etisalat',
   country         TEXT NOT NULL DEFAULT 'UAE',
+  lander          TEXT NOT NULL DEFAULT 'v1',
   created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   converted_at    TIMESTAMPTZ
 );
+
+-- Migration: ALTER TABLE leads ADD COLUMN lander TEXT NOT NULL DEFAULT 'v1';
 
 -- postback_logs: one row per postback fire attempt
 CREATE TABLE postback_logs (
