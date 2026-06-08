@@ -60,7 +60,7 @@
           </div>
         </div>
         <button class="btn-primary" id="btn-request">
-          <span class="btn-text" data-i18n="get_pin">احصل على رمز PIN</span>
+          <span class="btn-text" data-i18n="get_pin">احصل على رمز التحقق</span>
           <span class="btn-shine"></span>
         </button>
         <p class="terms" data-i18n="terms">بالمتابعة، أنت توافق على الشروط والأحكام. AED 3.25/يوم بعد 24 ساعة مجانية. للإلغاء أرسل <strong>STOP GD</strong> إلى <strong>1741</strong></p>
@@ -71,17 +71,17 @@
         <!-- Shown while waiting for carrier to send the PIN -->
         <div class="pin-sending hidden" id="pin-sending">
           <div class="sending-spinner"></div>
-          <span data-i18n="sending_pin">جاري إرسال رمز PIN إلى هاتفك...</span>
+          <span data-i18n="sending_pin">جاري إرسال رمز التحقق إلى هاتفك...</span>
         </div>
         <div class="pin-lock">🔐</div>
-        <p class="card-label" data-i18n="pin_label">أدخل رمز PIN المرسل إلى هاتفك</p>
+        <p class="card-label" data-i18n="pin_label">أدخل رمز التحقق المرسل إلى هاتفك</p>
         <input type="text" id="pin" placeholder="• • • •" maxlength="4" inputmode="numeric" autocomplete="one-time-code" class="pin-input" dir="ltr" />
         <button class="btn-primary" id="btn-verify">
           <span class="btn-text" data-i18n="verify">تحقق وفعّل</span>
           <span class="btn-shine"></span>
         </button>
         <button class="btn-ghost" id="btn-resend">
-          <span data-i18n="resend">إعادة إرسال PIN</span>
+          <span data-i18n="resend">إعادة إرسال الرمز</span>
         </button>
       </div>
 
