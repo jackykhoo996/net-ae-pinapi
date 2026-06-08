@@ -6,17 +6,18 @@
   <title>Gameonz — كأس العالم 2026</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Rajdhani:wght@500;600;700;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Rajdhani:wght@600;700;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- Background layers -->
-  <div class="bg-blob b1" aria-hidden="true"></div>
-  <div class="bg-blob b2" aria-hidden="true"></div>
-  <div class="bg-blob b3" aria-hidden="true"></div>
-  <div class="bg-grid" aria-hidden="true"></div>
-  <div class="stadium-lights" aria-hidden="true"></div>
+  <!-- Stadium background layers -->
+  <div class="sta-sky"     aria-hidden="true"></div>
+  <div class="sta-lights"  aria-hidden="true"></div>
+  <div class="sta-pitch"   aria-hidden="true"></div>
+  <div class="sta-lines"   aria-hidden="true"></div>
+  <div class="sta-crowd"   aria-hidden="true"></div>
+  <div class="sta-vignette" aria-hidden="true"></div>
 
   <!-- Nav -->
   <nav class="nav">
@@ -24,36 +25,52 @@
     <button class="lang-btn" id="lang-btn" aria-label="Switch language">EN</button>
   </nav>
 
-  <!-- Hero -->
-  <main class="main">
+  <main>
+
+    <!-- ── FIFA Hero ── -->
+    <section class="hero">
+
+      <!-- Floating football -->
+      <div class="ball-wrap" aria-hidden="true">
+        <div class="ball-glow"></div>
+        <div class="ball">⚽</div>
+        <div class="ring r1"></div>
+        <div class="ring r2"></div>
+        <div class="ring r3"></div>
+      </div>
+
+      <!-- FIFA 2026 brand typography -->
+      <div class="fifa-brand">
+        <div class="fifa-eyebrow">FIFA WORLD CUP™</div>
+        <div class="fifa-year">2026</div>
+        <div class="fifa-hosts">🇲🇦 &nbsp;·&nbsp; 🇨🇦 &nbsp;·&nbsp; 🇺🇸</div>
+      </div>
+
+      <!-- Headline from translations -->
+      <h1 class="hero-hl" data-i18n="headline">العب &bull; انتصر &bull; احتفل</h1>
+      <p class="hero-sub" data-i18n="sub">انضم إلى ملايين اللاعبين واستمتع بأكثر من 1000 لعبة خلال موسم كأس العالم FIFA 2026</p>
+
+      <!-- FREE TRIAL pill -->
+      <div class="free-pill">
+        <span class="pill-star">🎁</span>
+        <div class="pill-text">
+          <span class="pill-big"  data-i18n="free_big">٢٤ ساعة مجاناً</span>
+          <span class="pill-tiny" data-i18n="free_sub">ثم AED 3.25 فقط يومياً</span>
+        </div>
+        <span class="pill-tag"   data-i18n="free_badge">مجاناً</span>
+      </div>
+
+    </section>
+
+    <!-- ── Subscription card area ── -->
     <div class="container">
 
-      <div class="hero-text">
-        <div class="badge">
-          <span class="badge-dot"></span>
-          <span data-i18n="badge">⚽ عرض كأس العالم 2026</span>
-        </div>
-        <h1 class="headline" data-i18n="headline">العب &bull; انتصر &bull; احتفل</h1>
-        <p class="sub" data-i18n="sub">انضم إلى ملايين اللاعبين واستمتع بأكثر من 1000 لعبة حصرية خلال موسم كأس العالم FIFA 2026</p>
-      </div>
-
-      <!-- Free trial banner -->
-      <div class="free-banner">
-        <span class="free-ico">🎁</span>
-        <div class="free-text">
-          <span class="free-big" data-i18n="free_big">٢٤ ساعة مجاناً</span>
-          <span class="free-sub" data-i18n="free_sub">ثم AED 3.25 فقط يومياً</span>
-        </div>
-        <span class="free-badge" data-i18n="free_badge">مجاناً</span>
-      </div>
-
-      <!-- Step 1: Phone -->
+      <!-- Step 1 · Phone -->
       <div class="card" id="step-phone">
 
-        <!-- Urgency -->
         <div class="urgency-row">
           <span class="urgency-dot"></span>
-          <span data-i18n="urgency">عرض محدود لموسم كأس العالم — سارع الآن!</span>
+          <span data-i18n="urgency">⚡ عرض محدود لموسم كأس العالم — سارع الآن!</span>
         </div>
 
         <p class="card-label" id="phone-label" data-i18n="phone_label">أدخل رقم اتصالات الإمارات</p>
@@ -80,13 +97,12 @@
 
         <button class="btn-primary" id="btn-request">
           <span class="btn-text" data-i18n="get_pin">ابدأ تجربتك المجانية</span>
-          <span class="btn-shine"></span>
         </button>
 
         <p class="terms" data-i18n="terms">بالمتابعة، أنت توافق على الشروط والأحكام. AED 3.25/يوم بعد 24 ساعة مجانية. للإلغاء أرسل <strong>STOP GD</strong> إلى <strong>1741</strong></p>
       </div>
 
-      <!-- Step 2: PIN -->
+      <!-- Step 2 · PIN -->
       <div class="card hidden" id="step-pin">
         <div class="pin-sending hidden" id="pin-sending">
           <div class="sending-spinner"></div>
@@ -97,14 +113,13 @@
         <input type="text" id="pin" placeholder="• • • •" maxlength="4" inputmode="numeric" autocomplete="one-time-code" class="pin-input" dir="ltr" />
         <button class="btn-primary" id="btn-verify">
           <span class="btn-text" data-i18n="verify">تحقق وفعّل</span>
-          <span class="btn-shine"></span>
         </button>
         <button class="btn-ghost" id="btn-resend">
           <span data-i18n="resend">إعادة إرسال الرمز</span>
         </button>
       </div>
 
-      <!-- Step 3: Success -->
+      <!-- Step 3 · Success -->
       <div class="card hidden" id="step-success">
         <div class="success-aura">
           <div class="success-icon">⚽</div>
@@ -115,21 +130,13 @@
 
       <!-- Features -->
       <div class="features">
-        <div class="feat">
-          <span class="feat-ico">⚽</span>
-          <span data-i18n="f1">ألعاب كأس العالم</span>
-        </div>
-        <div class="feat">
-          <span class="feat-ico">🏆</span>
-          <span data-i18n="f2">بطولات يومية</span>
-        </div>
-        <div class="feat">
-          <span class="feat-ico">🥇</span>
-          <span data-i18n="f3">مكافآت حصرية</span>
-        </div>
+        <div class="feat"><span class="feat-ico">⚽</span><span data-i18n="f1">ألعاب كأس العالم</span></div>
+        <div class="feat"><span class="feat-ico">🏆</span><span data-i18n="f2">بطولات يومية</span></div>
+        <div class="feat"><span class="feat-ico">🥇</span><span data-i18n="f3">مكافآت حصرية</span></div>
       </div>
 
-    </div>
+    </div><!-- /container -->
+
   </main>
 
   <script src="lander.js"></script>
