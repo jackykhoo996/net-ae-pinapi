@@ -137,9 +137,11 @@
     var html = '';
     slice.forEach(function (r, i) {
       var rowNum = start + i + 1;
-      var landerBadge = r.lander === 'v2'
-        ? '<span class="pill pill-v2">V2</span>'
-        : '<span class="pill pill-v1">V1</span>';
+      var landerBadge = r.lander === 'v3'
+        ? '<span class="pill pill-v3">V3</span>'
+        : r.lander === 'v2'
+          ? '<span class="pill pill-v2">V2</span>'
+          : '<span class="pill pill-v1">V1</span>';
       html +=
         '<tr>' +
         '<td>' + rowNum + '</td>' +

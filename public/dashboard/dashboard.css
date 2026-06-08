@@ -219,6 +219,7 @@ td.error { color: var(--red); }
 .pill-failed    { background: rgba(255,23,68,.12); color: var(--red); }
 .pill-v1        { background: rgba(0,245,255,.10); color: var(--accent); }
 .pill-v2        { background: rgba(255,160,0,.12); color: #ffa000; }
+.pill-v3        { background: rgba(168,85,247,.14); color: #c084fc; }
 .pill-sm        { padding: 2px 8px; font-size: 10px; text-transform: none; letter-spacing: 0; }
 .muted-dash     { color: var(--muted); font-size: 13px; }
 

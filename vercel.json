@@ -9,6 +9,9 @@
     { "src": "/v2", "status": 308, "headers": { "Location": "/v2/" } },
     { "src": "/v2/", "dest": "/public/v2/index.html" },
     { "src": "/v2/(.*)", "dest": "/public/v2/$1" },
+    { "src": "/v3", "status": 308, "headers": { "Location": "/v3/" } },
+    { "src": "/v3/", "dest": "/public/v3/index.html" },
+    { "src": "/v3/(.*)", "dest": "/public/v3/$1" },
     { "src": "/", "dest": "/public/index.html" },
     { "src": "/(.*)", "dest": "/public/$1" }
   ]
