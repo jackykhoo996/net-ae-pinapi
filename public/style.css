@@ -279,7 +279,10 @@ html[dir="ltr"] .sub { font-size: 13px; }
   box-shadow: 0 0 0 3px rgba(255,92,26,0.15);
 }
 .prefix {
-  padding: 14px 14px;
+  padding: 0 14px;
+  height: 54px;
+  display: flex;
+  align-items: center;
   font-size: 15px;
   font-weight: 700;
   color: var(--orange);
@@ -288,6 +291,7 @@ html[dir="ltr"] .sub { font-size: 13px; }
   user-select: none;
   background: rgba(255,92,26,0.06);
   font-family: var(--font-en);
+  flex-shrink: 0;
 }
 input[type="tel"],
 input[type="text"] {
@@ -296,9 +300,10 @@ input[type="text"] {
   border: none;
   outline: none;
   color: var(--text);
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
-  padding: 16px 14px;
+  height: 54px;
+  padding: 0 14px;
   font-family: var(--font-en);
   text-align: center;
   letter-spacing: 2px;
