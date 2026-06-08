@@ -646,6 +646,78 @@ nav, main { position: relative; z-index: 10; }
 .feat-ico { font-size: 14px; }
 
 /* ════════════════════════════════════════
+   LEGAL FOOTER
+   ════════════════════════════════════════ */
+.legal-footer {
+  position: relative;
+  z-index: 10;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 24px 20px 40px;
+  border-top: 1px solid rgba(255,215,0,0.08);
+}
+
+/* Language visibility */
+html[lang="en"] .legal-ar { display: none; }
+html[lang="ar"] .legal-en { display: none; }
+
+.legal-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: rgba(255,215,0,0.55);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.legal-footer p {
+  font-size: 10px;
+  color: rgba(255,255,255,0.3);
+  line-height: 1.7;
+  margin-bottom: 8px;
+}
+
+.legal-footer ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 10px;
+}
+
+.legal-footer ul li {
+  font-size: 10px;
+  color: rgba(255,255,255,0.28);
+  line-height: 1.7;
+  padding-right: 10px;
+  margin-bottom: 4px;
+  position: relative;
+}
+.legal-footer ul li::before {
+  content: '·';
+  position: absolute;
+  right: 0;
+  color: rgba(255,215,0,0.3);
+}
+html[lang="en"] .legal-footer ul li { padding-right: 0; padding-left: 10px; }
+html[lang="en"] .legal-footer ul li::before { right: auto; left: 0; }
+
+.legal-footer strong {
+  color: rgba(255,255,255,0.45);
+  font-weight: 700;
+}
+
+.legal-links {
+  font-size: 10px;
+  color: rgba(255,255,255,0.25) !important;
+}
+
+.legal-footer a {
+  color: rgba(255,215,0,0.45);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.legal-footer a:hover { color: rgba(255,215,0,0.7); }
+
+/* ════════════════════════════════════════
    TOAST
    ════════════════════════════════════════ */
 .toast {
