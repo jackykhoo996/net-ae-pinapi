@@ -188,9 +188,9 @@ nav, main { position: relative; z-index: 10; }
 /* ── Floating football ── */
 .ball-wrap {
   position: relative;
-  width: 76px;
-  height: 76px;
-  margin: 0 auto 10px;
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 8px;
 }
 
 .ball-glow {
@@ -206,8 +206,8 @@ nav, main { position: relative; z-index: 10; }
 }
 
 .ball {
-  font-size: 58px;
-  line-height: 76px;
+  font-size: 46px;
+  line-height: 60px;
   display: block;
   filter:
     drop-shadow(0 0 10px rgba(255,215,0,0.5))
@@ -231,9 +231,9 @@ nav, main { position: relative; z-index: 10; }
   animation: ring-expand 2.4s ease-out infinite;
   z-index: 1;
 }
-.ring.r1 { width:  96px; height:  96px; animation-delay: 0s; }
-.ring.r2 { width: 128px; height: 128px; animation-delay: 0.7s; }
-.ring.r3 { width: 160px; height: 160px; animation-delay: 1.4s; }
+.ring.r1 { width:  76px; height:  76px; animation-delay: 0s; }
+.ring.r2 { width: 100px; height: 100px; animation-delay: 0.7s; }
+.ring.r3 { width: 126px; height: 126px; animation-delay: 1.4s; }
 
 @keyframes ring-expand {
   0%   { opacity: 0.7; transform: translate(-50%, -50%) scale(0.75); }
