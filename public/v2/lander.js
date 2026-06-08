@@ -39,7 +39,8 @@
       lang_label:          'EN',
       detected_label:      'تم اكتشاف رقمك',
       not_my_number:       'ليس رقمي؟',
-      sending_pin:         'جاري إرسال رمز التحقق إلى هاتفك...'
+      sending_pin:         'جاري إرسال رمز التحقق إلى هاتفك...',
+      exit_btn:            'خروج'
     },
     en: {
       hv_offer: 'EXCLUSIVE OFFER',
@@ -77,7 +78,8 @@
       lang_label:          'عربي',
       detected_label:      'Number Detected',
       not_my_number:       'Not my number?',
-      sending_pin:         'Sending PIN to your phone...'
+      sending_pin:         'Sending PIN to your phone...',
+      exit_btn:            'Exit'
     }
   };
 

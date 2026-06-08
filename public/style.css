@@ -93,20 +93,31 @@ body {
   50%       { transform: translateX(-50%) scale(1.2); }
 }
 
-/* ── Top announcement bar ── */
-.top-bar {
-  position: relative;
-  z-index: 101;
-  background: rgba(10, 8, 5, 0.92);
-  border-bottom: 1px solid rgba(255,92,26,0.25);
+/* ── Nav center pricing text ── */
+.nav-center {
+  flex: 1;
   text-align: center;
-  padding: 8px 16px;
-  font-size: 11px;
-  color: rgba(255,255,255,0.75);
-  line-height: 1.5;
-  font-family: var(--font-ar);
+  font-size: 10px;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.4;
+  padding: 0 10px;
 }
-html[dir="ltr"] .top-bar { font-family: var(--font-en); }
+
+/* ── Exit button ── */
+.btn-exit {
+  width: 100%;
+  padding: 11px;
+  margin-top: 8px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.45);
+  font-family: var(--font-ar);
+  font-size: 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+.btn-exit:hover { border-color: rgba(255,255,255,0.3); color: rgba(255,255,255,0.7); }
 
 /* ── Nav ── */
 .nav {

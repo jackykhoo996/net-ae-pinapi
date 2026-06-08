@@ -19,14 +19,12 @@
   <div class="sta-crowd"   aria-hidden="true"></div>
   <div class="sta-vignette" aria-hidden="true"></div>
 
-  <!-- Top announcement bar -->
-  <div class="top-bar" id="top-bar">
-    <span data-i18n="top_bar">مجانًا لمدة 24 ساعة ثم ستُفرض على 3.25 دراهم / يومًا درهمًا إماراتيًا شاملاً ضريبة القيمة المضافة.</span>
-  </div>
-
   <!-- Nav -->
   <nav class="nav">
     <img src="/gameonz-logo.png" alt="Gameonz" class="logo" />
+    <div class="nav-center">
+      <span data-i18n="top_bar">مجانًا لمدة 24 ساعة ثم ستُفرض على 3.25 دراهم / يومًا درهمًا إماراتيًا شاملاً ضريبة القيمة المضافة.</span>
+    </div>
     <button class="lang-btn" id="lang-btn" aria-label="Switch language">EN</button>
   </nav>
 
@@ -98,8 +96,10 @@
         <button class="btn-primary" id="btn-request">
           <span class="btn-text" data-i18n="get_pin">ابدأ تجربتك المجانية</span>
         </button>
-
-        <p class="terms" data-i18n="terms">بالمتابعة، أنت توافق على الشروط والأحكام. AED 3.25/يوم بعد 24 ساعة مجانية. للإلغاء أرسل <strong>STOP GD</strong> إلى <strong>1741</strong></p>
+        <button class="btn-exit" onclick="history.back()">
+          <span data-i18n="exit_btn">خروج</span>
+        </button>
+        <p class="terms" data-i18n="terms">مجانًا لمدة 24 ساعة ثم ستُفرض على 3.25 دراهم / يومًا درهمًا إماراتيًا شاملاً ضريبة القيمة المضافة. بالضغط على اشترك، سوف تتلقى رسالة تحتوي على رمز التفعيل لتأكيد اشتراكك.</p>
       </div>
 
       <!-- Step 2 · PIN -->
