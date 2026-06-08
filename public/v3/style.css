@@ -321,20 +321,20 @@ main {
   text-align: center;
 }
 
-/* Input row */
+/* Input row — centred compact block */
 #phone-row {
   display: flex;
   justify-content: center;
 }
 .input-row {
-  display: flex;
-  width: 100%;
-  max-width: 280px;
+  display: inline-flex;
+  width: auto;
   border-radius: 14px;
   overflow: hidden;
   border: 1.5px solid rgba(124,58,237,0.45);
   background: rgba(0,0,0,0.45);
   transition: border-color .2s, box-shadow .2s;
+  margin: 0 auto;
 }
 .input-row:focus-within {
   border-color: var(--purple2);
@@ -357,7 +357,7 @@ html[dir="ltr"] .prefix {
   border-left: 1px solid rgba(124,58,237,0.3);
 }
 input[type="tel"] {
-  flex: 1;
+  width: 148px;
   height: 54px;
   background: transparent;
   border: none;
