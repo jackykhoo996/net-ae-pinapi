@@ -43,23 +43,23 @@ body {
 .b1 {
   width: 1100px; height: 1000px;
   top: -450px; right: -260px;
-  background: radial-gradient(ellipse, rgba(255,95,20,0.90) 0%, rgba(255,50,90,0.50) 38%, transparent 65%);
-  filter: blur(85px);
+  background: radial-gradient(ellipse, rgba(255,95,20,0.70) 0%, rgba(255,50,90,0.35) 38%, rgba(255,50,90,0.10) 58%, transparent 72%);
   animation: drift1 10s ease-in-out infinite;
+  will-change: transform;
 }
 .b2 {
   width: 900px; height: 850px;
   bottom: -320px; left: -220px;
-  background: radial-gradient(ellipse, rgba(130,0,230,0.65) 0%, rgba(80,0,180,0.40) 42%, transparent 65%);
-  filter: blur(80px);
+  background: radial-gradient(ellipse, rgba(130,0,230,0.52) 0%, rgba(80,0,180,0.28) 42%, rgba(80,0,180,0.06) 60%, transparent 72%);
   animation: drift2 14s ease-in-out infinite;
+  will-change: transform;
 }
 .b3 {
   width: 750px; height: 650px;
   top: 28%; left: 50%; transform: translateX(-50%);
-  background: radial-gradient(ellipse, rgba(50,0,200,0.35) 0%, transparent 68%);
-  filter: blur(95px);
+  background: radial-gradient(ellipse, rgba(50,0,200,0.28) 0%, rgba(50,0,200,0.08) 45%, transparent 70%);
   animation: drift3 18s ease-in-out infinite;
+  will-change: transform;
 }
 
 /* ── Perspective gaming grid ── */
