@@ -1,6 +1,14 @@
 {
   "version": 2,
   "public": false,
+  "headers": [
+    {
+      "source": "/(.*\\.css|.*\\.js|.*\\.png|.*\\.jpg|.*\\.ico|.*\\.woff2)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=86400, stale-while-revalidate=604800" }
+      ]
+    }
+  ],
   "routes": [
     { "src": "/api/(.*)", "dest": "/api/$1" },
     { "src": "/dashboard", "status": 308, "headers": { "Location": "/dashboard/" } },
